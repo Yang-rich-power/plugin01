@@ -1,0 +1,151 @@
+{
+  "name": "engine-helper",
+  "displayName": "engine-helper",
+  "publisher": "jirenyang",
+  "description": "引擎助手",
+  "version": "0.1.0",
+  "author": "jirenyang",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yang-rich-power/plugin01.git"
+  },
+  "categories": [
+    "Snippets",
+    "Extension Packs"
+  ],
+  "keywords": [
+    "vscode",
+    "js",
+    "snippets"
+  ],
+  "icon": "engine.png",
+  "main": "./extension.js",
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "snippetsUsageView",
+          "title": "代码片段使用统计",
+          "icon": "./engine.png"
+        }
+      ]
+    },
+    "views": {
+      "snippetsUsageView": [
+        {
+          "id": "snippetsUsageTreeView",
+          "name": "使用统计",
+          "when": "resourceExtname == .lua"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "lua",
+        "aliases": [
+          "Lua",
+          "lua"
+        ],
+        "extensions": [
+          ".lua"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "snippets": [],
+    "commands": [
+      {
+        "command": "engine-helper.editEffectiveDocuments",
+        "title": "修改插件生效文件"
+      },
+      {
+        "command": "engine-helper.importExcelSnippets",
+        "title": "导入Excel接口"
+      },
+      {
+        "command": "engine-helper.showAllSnippets",
+        "title": "显示所有接口"
+      },
+      {
+        "command": "engine-helper.addCustomSnippet",
+        "title": "添加自定义片段"
+      },
+      {
+        "command": "engine-helper.deleteCustomSnippet",
+        "title": "删除自定义片段"
+      },
+      {
+        "command": "engine-helper.refreshSnippetsUsage",
+        "title": "接口统计"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "engine-helper.importExcelSnippets",
+        "key": "ctrl+alt+i"
+      },
+      {
+        "command": "engine-helper.showAllSnippets",
+        "key": "ctrl+alt+u"
+      },
+      {
+        "command": "engine-helper.editEffectiveDocuments",
+        "key": "ctrl+alt+e",
+        "mac": "cmd+alt+e"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "engine-helper",
+          "group": "navigation"
+        }
+      ],
+      "engine-helper": [
+        {
+          "command": "engine-helper.editEffectiveDocuments",
+          "group": "group1"
+        },
+        {
+          "command": "engine-helper.addCustomSnippet",
+          "group": "group1"
+        },
+        {
+          "command": "engine-helper.deleteCustomSnippet",
+          "group": "group1"
+        },
+        {
+          "command": "engine-helper.importExcelSnippets",
+          "group": "group2"
+        },
+        {
+          "command": "engine-helper.showAllSnippets",
+          "group": "group2"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "engine-helper",
+        "label": "引擎助手"
+      }
+    ]
+  },
+  "dependencies": {
+    "-": "^0.0.1",
+    "axios": "^1.7.7",
+    "g": "^2.0.1",
+    "luaparse": "^0.3.1",
+    "vscode-languageclient": "^9.0.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.95.0"
+  }
+}

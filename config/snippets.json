@@ -1,0 +1,2886 @@
+{
+  "messagebox": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:消息内容。字符串类型",
+    "接口功能详述": "弹出一个消息提示框",
+    "返回参数": "无",
+    "示例": "messagebox(actor,\"你好，欢迎来到游戏！\")"
+  },
+  "getserveropendays": {
+    "模块": "通用",
+    "参数说明": "参数0:actor（可不填）",
+    "接口功能详述": "获得开服天数。注意：此接口有问题，获取开服天数请使用 getbaseinfo(\"serveropendays\") ",
+    "返回参数": "开服天数。数值类型",
+    "示例": "days = getserveropendays(actor)"
+  },
+  "sendmsg": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:类型:0全局， 4视野，5自己，8行会\n参数2:要发送的内容",
+    "接口功能详述": "发送提示消息（给当前玩家，或者所有玩家）",
+    "返回参数": "无",
+    "示例": "sendmsg(actor,8,\"hellword\")"
+  },
+  "gmexecute": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:gm命令字符串",
+    "接口功能详述": "执行GM指令。这种GM指令常规情况下是在游戏开发阶段通过GM面板发送的，用户执行高权限操作，比如发送道具、开关活动、生成装备等，所以要谨慎使用",
+    "返回参数": "无",
+    "示例": "gmexecute(actor,\"@setLv 200\")"
+  },
+  "setontimerex": {
+    "模块": "定时器",
+    "参数说明": "参数1:定时器ID\n参数2:执行间隔，单位秒\n参数3:首次延迟,单位秒,默认无延迟",
+    "接口功能详述": "开启一个全局定时器。\n按指定的时间间隔定时执行一个lua函数，除非被 setofftimerex 接口关闭，否则会一直执行。\n函数的名字必定是以ontimerex为前缀，并跟随一个数字，如ontimerex23，这个数字是通过第一个函数参数指定的定时器ID。",
+    "返回参数": "无",
+    "示例": "setontimerex(23, 5)\nsetontimerex(23, 5,3)\n --触发函数为ontimerex 拼接 定时器id\nfunction ontimerex23()\nend"
+  },
+  "setofftimerex": {
+    "模块": "定时器",
+    "参数说明": "参数1:定时器ID，数值类型",
+    "接口功能详述": "关闭以 setontimerex 接口开启的全局定时器",
+    "返回参数": "无",
+    "示例": " setofftimerex(23)"
+  },
+  "setontimer": {
+    "模块": "定时器",
+    "参数说明": "参数0:actor\n参数1:定时器ID，数值类型\n参数2:执行间隔，单位秒\n参数3:首次延迟,单位秒,默认无延迟",
+    "接口功能详述": "开启一个个人定时器，也就是按指定的时间间隔执行一个lua函数。\n和全局定时器不一样，个人定时器是和游戏中的对象挂钩的，如人、怪、宠物等。\n这些游戏对象身上都可以挂个人定时器，相当于在对象的心跳中去轮询执行一个指定的lua函数。\n个人定时器被关闭的条件\n1、通过setontimer接口\n2、玩家退出游戏，怪物、宠物(伙伴)被击杀，也就是对象在游戏中消失了\n个人定时的函数名称必然是以ontimer开头，并且跟随定时器ID，如 ontimer23。定时器ID由setontimer接口的第一个参数指定",
+    "返回参数": "无",
+    "示例": "setontimer(actor,23, 5)\nsetontimer(actor,23, 5,3)\n --触发函数为ontimer 拼接 定时器id\nfunction ontimer23()\nend"
+  },
+  "setofftimer": {
+    "模块": "定时器",
+    "参数说明": "参数0:actor\n参数1:定时器ID",
+    "接口功能详述": "关闭一个以setontimer开启的个人定时器",
+    "返回参数": "无",
+    "示例": " setofftimer(actor,23)"
+  },
+  "tipinfo": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:提示的内容。字符串类型",
+    "接口功能详述": "弹出一个提示，效果是在游戏界面上显示一段警告文字",
+    "返回参数": "无",
+    "示例": "tipinfo(actor,\"提示内容\")"
+  },
+  "checkcondition": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:条件表达式。字符串类型",
+    "接口功能详述": "校验条件表达式是否满足\n条件表达式是引擎游戏服务器内置的功能，具体请参考相关文档",
+    "返回参数": "0：校验不通过\n1：校验通过",
+    "示例": "ok = checkcondition(actor,\"checkLevel=5\")"
+  },
+  "sendluamsg": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:msgId。协议ID，需要和客户端协商好\n参数2:要发送给客户端的数据。可以是任意luaa数据类型",
+    "接口功能详述": "发送lua消息给指定的玩家，可以是玩家自身，也可以是别的玩家，第0个参数actor指定。\n消息会通过网络传送给客户端。",
+    "返回参数": "无",
+    "示例": "sendluamsg(actor, 10000, {id=1,value=1000})"
+  },
+  "sendrefluamsg": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:msgId\n参数2:要发送给客户端的数据。可以是任意lua数据类型",
+    "接口功能详述": "发送lua视野给指定actor视野范围内的玩家。\n也就是说参数0指定的actor周围的玩家都可以收到该命令发送的消息。\n消息会通过网络传送给客户端",
+    "返回参数": "无",
+    "示例": "sendlrefuamsg(actor,100001,{exp=1,expAddRate=2})"
+  },
+  "sendmapmsg": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:msgId\n参数2:要发送给客户端的数据。可以是任意luaa数据类型",
+    "接口功能详述": "发送lua消息给actor所有地图内的所有玩家发送lua消息。\n消息会通过网络传送给客户端",
+    "返回参数": "无",
+    "示例": "sendmapmsg(100001,{exp=1,expAddRate=2})"
+  },
+  "gettablevalue": {
+    "模块": "通用",
+    "参数说明": "参数1:表名称\n参数2:被取值的列的名称\n参数3:筛选条件的字段名\n参数4:筛选条件的字段值\n参数N:筛选条件的字段名\n参数N+1:筛选条件的字段值",
+    "接口功能详述": "指定条件，获取游戏配置表中某个单元格的数据。\n需要注意的是，单元格的值无论是什么类型，最终都会被转成子字符串返回",
+    "返回参数": "单元格得值，字符串类型",
+    "示例": "得到 id 等于1001001 的道具的 Name 字段的值\nlocal name = gettablevalue(\"cfg_item\",\"name\",\"id\",\"10010001\")\n得到的值会被放在name这个变量里边"
+  },
+  "gettable": {
+    "模块": "通用",
+    "参数说明": "参数1:表名称\n参数2:筛选条件的字段名\n参数3:筛选条件的字段值\n参数N:筛选条件的字段名\n参数N+1:筛选条件的字段值",
+    "接口功能详述": "获取游戏配置表中符合条件的行集合",
+    "返回参数": "表数据集合，table类型",
+    "示例": "得到 id 等于1001001 的道具记录\nlocal itemConfigList = getTable(\"cfg_item\",\"id\",\"10010001\")\n得到的结果配置列表，此示例中该列表只有一条记录，但是如果指定的条件有多条记录匹配，那么就返回这些匹配的记录，因此这个函数的返回值是一个list类型"
+  },
+  "info": {
+    "模块": "通用",
+    "参数说明": "参数1:日志内容。任意类型\n参数2-N:日志内容。任意类型",
+    "接口功能详述": "输入一条普通日志，相当于logback中info类型的日志，日志内容会在控制太打印，同时也会被记录到logback的日志文件中.\n该接口接受任意多个参数,最终输出的结构会被拼接在一起,用逗号分割.\ninfo(\"a\",\"b\",\"c\"),输出的结果是\"a,b,c\"",
+    "返回参数": "无",
+    "示例": "info(\"普通日志内容\")\ninfo(\"普通日志内容\",\"普通日志内容\")\ninfo(\"普通日志内容\",\"普通日志内容\",\"普通日志内容\")"
+  },
+  "error": {
+    "模块": "通用",
+    "参数说明": "参数1:日志内容。任意类型\n参数2-N:日志内容。任意类型",
+    "接口功能详述": "输入一条异常日志，相当于logback中error类型的日志，日志内容会在控制太打印，同时也会被记录到logback的日志文件中.\n该接口接受任意多个参数,最终输出的结构会被拼接在一起,用逗号分割.\nerror(\"a\",\"b\",\"c\"),输出的结果是\"a,b,c\"",
+    "返回参数": "无",
+    "示例": "error(\"异常日志内容\")\nerror(\"异常日志内容\",\"异常日志内容\")\nerror(\"异常日志内容\",\"异常日志内容\",\"异常日志内容\")"
+  },
+  "webrequest": {
+    "模块": "通用",
+    "参数说明": "参数1:url",
+    "接口功能详述": "发送一个http web请求，把url地址中的内容读取过来",
+    "返回参数": "响应的内容。字符串类型",
+    "示例": ""
+  },
+  "intervalcall": {
+    "模块": "定时器",
+    "参数说明": "参数0:actor\n参数1:间隔时长，单位毫秒\n参数2:执行次数\n参数3:被执行的函数名称（脚本函数）\n参数4-N:被执行函数的参数",
+    "接口功能详述": "这个是一个定时器接口，按指定时间间隔执行一个lua函数。\n注意：该接口必须要指定actor，因为定时器是挂在actor(游戏对象)上执行的",
+    "返回参数": "该定时器的句柄，用于后续取消定时器",
+    "示例": "function test123(actor,a,b,c)\n    print(a,b,c)\nend\n\nlocal timerid = intervalcalldelay(actor, 1000, 3,\"test123\", 100, 200, \"helloWorld\")\nprint(\"timerid\", timerid)"
+  },
+  "intervalcalldelay": {
+    "模块": "定时器",
+    "参数说明": "参数0:actor\n参数1:第一次执行延迟时长，单位毫秒\n参数2:间隔时长，单位毫秒\n参数3:执行次数\n参数4:被执行的函数名称（脚本函数）\n参数5-N:被执行函数的参数",
+    "接口功能详述": "按指定间隔事件执行lua函数（和Intervalcall一样），且第一次执行可以设置指定延时\n注意：该接口必须要指定actor，因为定时器是挂在actor(游戏对象)上执行的",
+    "返回参数": "该定时器的句柄，用于后续取消定时器",
+    "示例": "function test123(actor,a,b,c)\n    print(a,b,c)\nend\nlocal timerid = intervalcalldelay(actor,1000, 1000, 3,\"test123\", 100, 200, \"helloWorld\")\nprint(\"timerid\", timerid)"
+  },
+  "clearintervalcall": {
+    "模块": "定时器",
+    "参数说明": "参数1:IntervalCall调用时返回的标识符",
+    "接口功能详述": "取消IntervalCall、intervalcalldelay所注册的定制执行任务",
+    "返回参数": "无",
+    "示例": "    local timerid = intervalcalldelay(actor,1000, 1000, 3,\"test123\", 100, 200, \"helloWorld\")\n    clearintervalcall(actor, timerid)"
+  },
+  "strtomap": {
+    "模块": "通用",
+    "参数说明": "参数1:字符串\n参数2:分隔符1\n参数3:分隔符2",
+    "接口功能详述": "把一个用指定符号分隔的字符串转换成table。\n但是出于性能考虑，我们不建议开发者调用这个接口，而是自己编写lua代码实现该效果。",
+    "返回参数": "table",
+    "示例": " local map = strtomap(\"aa#1|bb#2\",\"#\",\"|\")\n结果：\n{\n        \"aa\":\"1\",\n        \"bb\":\"2\"\n}"
+  },
+  "jprint": {
+    "模块": "通用",
+    "参数说明": "参数1：需要打印的内容。table类型",
+    "接口功能详述": "把lua中table类型数据结构用json的格式打印到控制台",
+    "返回参数": "无",
+    "示例": "jprint(luatable)"
+  },
+  "createfile": {
+    "模块": "文件操作",
+    "参数说明": "参数1:文件路径",
+    "接口功能详述": "在 meta\\userapi\\npcScript目录下创建一个文件，文件格式必须是txt和ini",
+    "返回参数": "布尔值，表示是否创建成功",
+    "示例": "ok = createfile(\"test.txt\")"
+  },
+  "addtextlist": {
+    "模块": "文件操作",
+    "参数说明": "参数1:文件路径\n参数2:添加的内容\n参数3:指定的行",
+    "接口功能详述": "往txt文件里添加内容到指定的行",
+    "返回参数": "布尔值，表示是否添加成功",
+    "示例": "ok = addtextlist(\"test.txt\",\"添加的内容\",1)"
+  },
+  "loadfiletomemory": {
+    "模块": "文件操作",
+    "参数说明": "参数1:文件路径\n参数2:是否自动保存",
+    "接口功能详述": "将指定txt文件读入内存，实现高速读写",
+    "返回参数": "布尔值，表示是否操作成功",
+    "示例": "ok = loadfiletomemory(\"test.txt\",0)"
+  },
+  "cleartextlist": {
+    "模块": "文件操作",
+    "参数说明": "参数1:文件路径",
+    "接口功能详述": "清除指定txt文件内的全部内容",
+    "返回参数": "布尔值，表示是否操作成功",
+    "示例": "ok = cleartextlist(\"test.txt\")"
+  },
+  "deltextlist": {
+    "模块": "文件操作",
+    "参数说明": "参数1:文件路径\n参数2:需要删除的字符串",
+    "接口功能详述": "将指定字符串从指定txt文件中删除",
+    "返回参数": "布尔值，表示是否操作成功",
+    "示例": "ok = deltextlist(\"test.txt\",\"需要删除的内容\")"
+  },
+  "getstringpos": {
+    "模块": "文件操作",
+    "参数说明": "参数1:文件路径\n参数2:字符串 \n参数3:存入变量 \n参数4:是否要求行完全匹配(0 1)",
+    "接口功能详述": "获得指定字符串在txt文件中的位置",
+    "返回参数": "布尔值，表示是否操作成功",
+    "示例": "getstringpos(actor,\"test.txt\",\"字符串\",\"U1\",1)"
+  },
+  "getrandomtext": {
+    "模块": "文件操作",
+    "参数说明": "参数1:文件路径\n参数2:存入变量 \n参数3:行号",
+    "接口功能详述": "获取指定文本中随机或指定行的字符串到变量",
+    "返回参数": "布尔值，表示是否操作成功",
+    "示例": "getrandomtext(actor,\"test.txt\",\"S1\",10)"
+  },
+  "getallattrinfo": {
+    "模块": "属性",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取玩家所有属性点信息。注意：该actor所指定的玩家必须是在线的，也就是所指定的对象必须在场景地图之中。",
+    "返回参数": "table类型的属性表\n{10001=100,20001=1000}\n这样的格式，key是属性ID，value是属性值",
+    "示例": "attr_map = getallattrinfo(actor)"
+  },
+  "attrname2id": {
+    "模块": "属性",
+    "参数说明": "参数1:属性名称，也就是attribute字段",
+    "接口功能详述": "cfg_att_info表有2个关键字段，id和attribute，id表示属性ID，attribute表示属性名称（英文），\n该接口将 attribute 字段的值转换成 id 字段的值",
+    "返回参数": "属性ID，也就是id字段",
+    "示例": "att_id = attrname2id(actor, att_str)"
+  },
+  "attrid2name": {
+    "模块": "属性",
+    "参数说明": "参数1:属性ID，也就是id字段",
+    "接口功能详述": "cfg_att_info表有2个关键字段，id和attribute，id表示属性ID，attribute表示属性名称（英文），\n该接口将 id字段的值转换成attribute 字段的值",
+    "返回参数": "属性名称，也就是attribute字段",
+    "示例": "att_str = attrname2id(actor, att_id)"
+  },
+  "updateattrgroup": {
+    "模块": "属性",
+    "参数说明": "模式1\n参数0:actor，\n参数1:属性组名称，\n参数2:属性名称（也可以是属性ID），\n参数3:属性值，\n参数N:属性名称（也可以是属性ID），\n参数N+1:属性值\n\n模式2\n参数0:actor，\n参数1:属性组名称，\n参数2:属性表（table类型，kv结构）",
+    "接口功能详述": "更新目标对象（玩家、怪物、宠物(伙伴)、召唤兽等）身上指定属性组的属性值。\n注意：该接口更新的属性不落库，不持久化",
+    "返回参数": "无",
+    "示例": "updateattrgroup(actor, group_name, \"strength\", 100, \"agility\", 100)\nupdateattrgroup(actor, group_name,200011, 100, 100,200012, 100)\n或者\nupdateattrgroup(actor,{strength=100,agility=100})\nupdateattrgroup(actor,{200011=100,200012=100})"
+  },
+  "clearattrgroup": {
+    "模块": "属性",
+    "参数说明": "参数1：属性组名称",
+    "接口功能详述": "清除掉目标（玩家、怪物、宠物(伙伴)、召唤兽等）身上某个属性组里边所有的属性\n注意：该接口更新的属性不落库，不持久化",
+    "返回参数": "无",
+    "示例": "clearattrgroup(actor, group_name)"
+  },
+  "deployattrpoint": {
+    "模块": "属性",
+    "参数说明": "参数0:actor\n参数1:属性表，必须是一级属性\n参数2:类型（这个参数的会通过ResRoleDeployAttrPointMessage这个消息发送给客户端）\n参数3:指定分配的点数。如果指定了该值，则扣除的属性点不通过传入的属性列表计算，而是直接使用该值",
+    "接口功能详述": "这个接口是专门针对奇迹游戏里边的分配属性点功能开发的，并不是一个较为通用的接口，且指定的属性必须是一级属性，如力量、智力、敏捷、体力。",
+    "返回参数": "无",
+    "示例": "attp_map = {10001=1,10002=1,10003=1,10004=1}\ndeployattrpoint(actor, att_map, 1)"
+  },
+  "resetattrpoint": {
+    "模块": "属性",
+    "参数说明": "参数0:actor\n参数1:是否消耗道具 0:消耗 1:不消耗(不填默认消耗)\n参数2:是否发送消息（ResAttAddWayMessage）给客户端 ，0：不发送，1：发送（不填默认发送 ）\n参数3:如果指定了该值，则重置的属性点数使用该值，而不是通过被重置的属性计算得到的点数",
+    "接口功能详述": "把已经分配的属性点重置为可分配状态。这个接口是专门针对奇迹游戏里边的分配属性点功能开发的，并不是一个较为通用的接口",
+    "返回参数": "无",
+    "示例": "resetattrpoint(actor, 1)"
+  },
+  "monsteratt": {
+    "模块": "属性",
+    "参数说明": "参数0:actor（怪物对象actor）\n参数1:属性ID\n参数2:是否和原有的属性值相加（0：否，1：是）\n参数3:属性值",
+    "接口功能详述": "设置或者增加怪物的属性，\n关于参数2的含义说明：假如怪物来1001属性值是100，如果参数2等于1，则将设置的属性和原有的属性相加，否则设置的属性将原有的属性覆盖",
+    "返回参数": "无",
+    "示例": "monsteratt(actor, 1001, 1, 100)"
+  },
+  "getattrinfo": {
+    "模块": "属性",
+    "参数说明": "参数0:actor\n参数1:属性英文名称",
+    "接口功能详述": "根据属性名称获取玩家的属性值，同时支持怪物、宠物、召唤兽等游戏地图中的对象，同时支持获取离线玩家的属性值",
+    "返回参数": "属性值，数值类型 ",
+    "示例": "value = getattrinfo(actor, \"maxAtkUpPercent\")"
+  },
+  "getdropdata": {
+    "模块": "属性",
+    "参数说明": "参数0:actror",
+    "接口功能详述": "获取在线玩家的一下信息（离线玩家获取不到）\n1、所有属性\n2、剩余可分配的属性点\n3、当前经验值",
+    "返回参数": "table类型，相关字段如下\ntable类型，相关字段如下\nattrmap:属性加点情况\nremainattrs:未使用点数\nexp：玩家经验",
+    "示例": "data = getdropdata(actor)"
+  },
+  "getallplayer": {
+    "模块": "地图",
+    "参数说明": "参数0:actror",
+    "接口功能详述": "获得所有在地图中在线玩家ID",
+    "返回参数": "table类型，当前在线玩家ID数组",
+    "示例": "rid_array = getallplayer(actor)"
+  },
+  "isonmap": {
+    "模块": "地图",
+    "参数说明": "参数0:actor\n参数1:地图ID（配置表中的ID）",
+    "接口功能详述": "判断玩家是否在指定地图中",
+    "返回参数": "1:在地图中，2:不在地图中",
+    "示例": "in_map = isonmap(actor, 1001)"
+  },
+  "movemapplay": {
+    "模块": "地图",
+    "参数说明": "参数1:指定地图唯一ID\n参数2:目标地图唯一Id\n参数3:坐标X\n参数4:坐标Y\n参数5:传送范围",
+    "接口功能详述": "把某个地图中的所有玩家全部移动到另外一个地图",
+    "返回参数": "无",
+    "示例": "movemapplayer(actor, 100001, 100002, 210, 180, 1)"
+  },
+  "isduplicate": {
+    "模块": "地图",
+    "参数说明": "参数0:actor\n参数1:活动ID（cfg_activity_rule表中的ID）\n参数2:活动副本等级",
+    "接口功能详述": "判断玩家是否在副本地图中",
+    "返回参数": "1:在活动副本中\n2:不在活动副本中",
+    "示例": "in_map = isduplicate(actor, 1, 1)"
+  },
+  "getmapplayercount": {
+    "模块": "地图",
+    "参数说明": "参数0:actor\n参数1:地图配置ID\n参数2:地图分线\n(不填参数时默认查询玩家所在地图)",
+    "接口功能详述": "获取地图中玩家的人数",
+    "返回参数": "地图中玩家数量",
+    "示例": "player_count = getmapplayercount(actor, 1001, 1)"
+  },
+  "getmapplayerids": {
+    "模块": "地图",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取当前玩家所在地图内的所有玩家ID",
+    "返回参数": "table类型，地图中玩家ID列表",
+    "示例": "player_rids = getmapplayerids(actor)"
+  },
+  "maptransfer": {
+    "模块": "地图",
+    "参数说明": "参数0: actor\n参数1:X坐标\n参数2:Y坐标\n参数3:目标地图配置ID (可不填，默认当前地图)\n参数4:目标地图分线 (可不填，默然1线)\n参数5:传送坐标范围 (可不填，默认1格，0为精确坐标)\n参数6:传送对象类型，1是玩家，2是怪物,怪物仅支持本地图传送（可不填，默认为玩家）\n参数7:传送类型，1-为普通传送，2-无视nopositionmove传送（可不填，默认为2）",
+    "接口功能详述": "在地图中自选坐标进行传送",
+    "返回参数": "无",
+    "示例": "--将玩家传送到地图ID为1001，线路为1，坐标100,100周围2格范围内的随机位置 \nmaptransfer(actor, 100, 100, 1001, 1, 2)"
+  },
+  "mapobjectdistance": {
+    "模块": "地图",
+    "参数说明": "参数0:actor\n参数1:对象1唯一ID \n参数2:对象2唯一ID",
+    "接口功能详述": "获取当前地图中两个对象（玩家、怪物、宠物(伙伴)、召唤兽等）之间的距离",
+    "返回参数": "间隔距离",
+    "示例": "distance = mapobjectdistance(actor, npc_id, player_id)"
+  },
+  "getmapmonstercountbyid": {
+    "模块": "地图",
+    "参数说明": "参数1:地图配置ID\n参数2:地图分线\n参数3:怪物配置ID\n参数4:怪物状态(1:存活的，0:所有)",
+    "接口功能详述": "获取指定地图中指定怪物的数量 ",
+    "返回参数": "怪物数量",
+    "示例": "count = getmapmonstercountbyid(actor, map_id, 1, 1002, 1)"
+  },
+  "isnotemptyinmap": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID（唯一ID不是配置ID）\n参数2:地图X坐标\n参数3:地图Y坐标",
+    "接口功能详述": "判断地图坐标是否为空，也就是这个有没有超出地图的范围，比如地图的尺寸是256x256，那么257x257这个坐标就不在地图内了",
+    "返回参数": "true:不为空\nfalse:空",
+    "示例": "existence = isemptyinmap(actor, 1001, 210, 180)"
+  },
+  "getalivemonsterinmap": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID\n参数2:地图X坐标\n参数3:地图Y坐标\n参数4:坐标范围",
+    "接口功能详述": "获取地图上指定范围内活着的怪物数量",
+    "返回参数": "table类型，范围内的指定怪物id数组",
+    "示例": "id_arr = getalivemonsterinmap(actor, map_id, 210, 180, 5)"
+  },
+  "getobjectinmap": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID\n参数2:地图X坐标\n参数3:地图Y坐标\n参数4:坐标范围\n参数5:对象类型(0.所有，1.玩家，2.怪物，3.召唤兽，4.宠物，5.npc，7.道具)，同时改类型也支持多选，比如{2,3}则返回怪物和宠物",
+    "接口功能详述": "获取地图上指定范围内的对象的ID列表",
+    "返回参数": "table类型，范围内的指定对象id数组",
+    "示例": "id_arr = getobjectinmap(actor, map_id, 210, 180, 5, 1)"
+  },
+  "getmapmon": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID\n参数2:怪物配置ID\n参数3:X坐标\n参数4:Y坐标\n参数5:范围",
+    "接口功能详述": "获取地图指定范围内怪物对象actor列表",
+    "返回参数": "table类型，范围内怪物actor数组",
+    "示例": "monster_actor_arr = getmapmon(actor, map_id, 210, 180, 5)"
+  },
+  "getmapplayer": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID\n参数2:是否统计死亡玩家(1:存活的，0: 所有)",
+    "接口功能详述": "获取地图玩家对象actor列表",
+    "返回参数": "玩家actor数组",
+    "示例": "actor_arr = getmapplayer(actor, map_id, 1)"
+  },
+  "getplaycountinmap": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID\n参数2:是否统计死亡玩家(1:存活的，0: 所有)",
+    "接口功能详述": "获取指定地图玩家数量",
+    "返回参数": "玩家数量",
+    "示例": "count = getplaycountinmap(actor, map_id, 1)"
+  },
+  "getmoncount": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID\n参数2:怪物配置ID（不填默认所有怪物）",
+    "接口功能详述": "获取指定地图中指定怪物类型的数量",
+    "返回参数": "怪物数量",
+    "示例": "count = getmoncount(actor, map_id, 1001)"
+  },
+  "getmapname": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID",
+    "接口功能详述": "根据地图id返回地图名称",
+    "返回参数": "地图名称",
+    "示例": "name = getmapname(actor, map_id)"
+  },
+  "mapbossinfo": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID\n参数2:怪物类型(cfg_monster表type字段中的类型，填nil或者-1表示不指定类型)\n参数3:怪物配置ID(可不填)",
+    "接口功能详述": "获取地图中怪物的数据信息",
+    "返回参数": "",
+    "示例": "monsterInfoList = mapbossinfo(actor, map_id, 1, 1001)"
+  },
+  "setenvirontimer": {
+    "模块": "定时器",
+    "参数说明": "参数1:地图唯一ID\n参数2:延时毫秒\n参数3:间隔毫秒\n参数4:执行次数\n参数5:延时执行的脚本（lua函数名）\n参数6-N:函数执行的参数",
+    "接口功能详述": "这个是一个定时器接口，按指定时间间隔执行一个lua函数，\n这个接口和intervalcall接口的唯一区别是，intervalcall是挂在玩家上的，而这个接口是挂在地图上的。\n注意：该接口必须要指定地图ID，因为定时器是挂在地图上执行的",
+    "返回参数": "定时任务的句柄ID，用于使用 setenvirofftimer 关闭定时器的依据",
+    "示例": "local timer = setenvirontimer(mapid,1000,1000,1,\"func\",arg1,arg2)"
+  },
+  "setenvirofftimer": {
+    "模块": "定时器",
+    "参数说明": "参数1:地图唯一ID\n参数2:定时器句柄值",
+    "接口功能详述": "关闭使用setenvirontimer开启的地图定时器",
+    "返回参数": "无",
+    "示例": "local timer = setenvirontimer(mapid,1000,1000,1,\"func\",arg1,arg2)\nsetenvirofftimer(mapid,timer)"
+  },
+  "hasenvirtimer": {
+    "模块": "定时器",
+    "参数说明": "参数1:地图唯一id\n参数2:定时器id",
+    "接口功能详述": "判断地图定时器是否存在",
+    "返回参数": "true | false",
+    "示例": "local timer = setenvirontimer(mapid,1000,1000,1,\"func\",arg1,arg2)\nlocal exit = hasenvirtimer(mapid,timer)"
+  },
+  "removemapobject": {
+    "模块": "地图",
+    "参数说明": "参数1:移除对象的对象actor",
+    "接口功能详述": "移除一个地图中的对象， 如玩家、怪物、宠物(伙伴)、召唤兽等",
+    "返回参数": "无",
+    "示例": "removemapobject(actor)"
+  },
+  "addmirrormap": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一id\n参数2:持续时间秒",
+    "接口功能详述": "根据指定地图ID复制一个相同的地图，且该指定的地图必须是一个副本地图，如果是常规地图，则会失败",
+    "返回参数": "新建的镜像地图的唯一ID",
+    "示例": "local mapId = addmirrormap(mapid,time)"
+  },
+  "delmirrormap": {
+    "模块": "地图",
+    "参数说明": "参数1:镜像地图的id",
+    "接口功能详述": "删除使用addmirrormap接口创建出来的镜像地图",
+    "返回参数": "无",
+    "示例": "delmirrormap(mapid)"
+  },
+  "getactor": {
+    "模块": "地图",
+    "参数说明": "参数0:actor(可不填)\n参数1:对象ID\n参数2:地图ID",
+    "接口功能详述": "获得actor，也就是LuaActor",
+    "返回参数": "actor",
+    "示例": "local targetActor = getactor(actor,id,mapid)"
+  },
+  "getmapinfobyid": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一id",
+    "接口功能详述": "根据地图唯一id获取地图信息",
+    "返回参数": "table:地图数据，字段如下\nid:地图唯一ID\ncfgid:地图配置ID\nline:地图线路\nisdup:是否是副本\nismirror:是否是镜像地图",
+    "示例": "local info = getmapinfobyid(mapid)"
+  },
+  "findmapmonster": {
+    "模块": "怪物",
+    "参数说明": "参数1:地图唯一ID\n参数2:怪物的名字\n参数3:模式\n模式=0或为空 （当前地图共存在的怪物数量，包含死亡怪物，尸体未清理掉的）\n模式=1 当前地图存活的怪物数量\n模式=2 当前地图死亡的怪物数量",
+    "接口功能详述": "获取当前地图指定名称的怪物数量",
+    "返回参数": "怪物数量 ",
+    "示例": "count = findmapmonster(actor,1001,\"冰后\",1)"
+  },
+  "getmapmoncount2": {
+    "模块": "怪物",
+    "参数说明": "参数0:地图配置ID\n参数2:地图分线",
+    "接口功能详述": "获得当前地图中怪物数量",
+    "返回参数": "该地图分线上的所有怪物数量",
+    "示例": "count = getmapmoncount2(actor,1001,1)"
+  },
+  "clearmapmon": {
+    "模块": "怪物",
+    "参数说明": "参数1:地图唯一ID",
+    "接口功能详述": "移除掉地图中的所有怪物",
+    "返回参数": "无",
+    "示例": "clearmapmon(actor,1000001)"
+  },
+  "killmapmon": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:地图唯一ID\n参数2:怪物名字\n参数3:是否掉落道具\n参数4:击杀数量，填0则表示击杀所有\n参数5:是否检测名字后面包含的数字，1表示不检测，其他值表示检测（检测即去除名字中的数字再比较）",
+    "接口功能详述": "击杀地图中的指定数量和名字的怪物",
+    "返回参数": "无",
+    "示例": "killmapmon(actor,1001,\"冰后\",1,3,1)"
+  },
+  "killrangemon": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:地图唯一ID\n参数2:x坐标\n参数3:y坐标\n参数4:范围\n参数5:怪物名字\n参数6:是否掉落道具\n参数7:击杀数量，填0则表示击杀所有",
+    "接口功能详述": "击杀范围内的怪物",
+    "返回参数": "无",
+    "示例": "killrangemon(actor,1001,100,200,5,\"冰后\",1,3,1)"
+  },
+  "mongen": {
+    "模块": "怪物",
+    "参数说明": "参数1:地图唯一ID\n参数2:x坐标\n参数3:y坐标\n参数4:范围\n参数5:怪物配置ID\n参数6:数量",
+    "接口功能详述": "在指定范围内生成指定配置ID和数量的怪物",
+    "返回参数": "新建的怪物actor的列表，类型table",
+    "示例": "local actors = mongen(actor,1001,100,200,5,10008,1)"
+  },
+  "mongenasync": {
+    "模块": "怪物",
+    "参数说明": "参数1:地图唯一ID\n参数2:x坐标\n参数3:y坐标\n参数4:范围\n参数5:怪物配置ID\n参数6:数量",
+    "接口功能详述": "生成指定数量和范围的怪物(异步)，效果和mongen一样，但因为是异步的，所以无法获得返回值，然而这个接口性能要比mongen好",
+    "返回参数": "无",
+    "示例": "mongenasync(actor,1001,100,200,5,10008,1)"
+  },
+  "monsterlevel": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor(怪物的actor)\n参数1:怪物等级",
+    "接口功能详述": "设置怪物等级",
+    "返回参数": "无",
+    "示例": "monsterlevel(monster,2) "
+  },
+  "monsterlowestdamage": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor(怪物的actor)\n参数1:保底伤害",
+    "接口功能详述": "设置怪物保底伤害",
+    "返回参数": "无",
+    "示例": "monsterlowestdamage(monster,100)"
+  },
+  "getmaxthreattarget": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:怪物的唯一ID\n参数2:仇恨类型，1根据仇恨查找,2根据伤害查找,3根据优先进入仇恨列表时间查询",
+    "接口功能详述": "获取怪物最大仇恨对象",
+    "返回参数": "table类型，示例数据如下\n{rid:100001,hatevalue:100}",
+    "示例": "result = getmaxthreattarget(actor,2756,1)"
+  },
+  "inmonsterthreat": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:怪物唯一ID\n参数2:目标的唯一ID",
+    "接口功能详述": "判断目标对象是否在怪物的仇恨列表中",
+    "返回参数": "1是,0否",
+    "示例": "result = inmonsterthreat(actor,2756)"
+  },
+  "iswatcher": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:怪物唯一ID\n参数2:目标的唯一ID",
+    "接口功能详述": "判断目标对象是否在怪物的视野范围内",
+    "返回参数": "1是 0否",
+    "示例": "result = iswatcher(actor,2756)"
+  },
+  "getmonsterkiller": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:被击杀的怪物唯一ID",
+    "接口功能详述": "获得怪物击杀者的ID",
+    "返回参数": "击杀者id",
+    "示例": "result = getmonsterkiller(actor,2756)"
+  },
+  "getinmonsterthreatrids": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:怪物唯一ID",
+    "接口功能详述": "获得怪物仇恨列表",
+    "返回参数": "仇恨者id列表",
+    "示例": "local idlist = getinmonsterthreatrids(actor,2756)"
+  },
+  "getnearestmonsterposition": {
+    "模块": "怪物",
+    "参数说明": "参数1:地图配置ID\n参数2:地图分线\n参数3:怪物配置ID\n参数4:x坐标\n参数5:y坐标\n参数6:1存活的怪物,其他值表示所有怪物",
+    "接口功能详述": "获取距离坐标点x，y最近的怪物的出生点",
+    "返回参数": "table类型，示例数据：{x=1,y=1}",
+    "示例": "local point =etnearestmonsterposition(actor,1001,1,10008,100,200, 0)"
+  },
+  "createmonster": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:怪物的配置ID\n参数2:范围\n参数3:数量\n参数4:x坐标\n参数5:y坐标",
+    "接口功能详述": "在地图上生成一个怪物。此接口和mongen接口功能相似，区别在于此接口没有返回值",
+    "返回参数": "无",
+    "示例": "createmonster(actor,10008,5,1,100,200)"
+  },
+  "checkmonsterdrop": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:条件表达式",
+    "接口功能详述": "执行条件表达式判断。这个接口和CheckCondition 效果一样，属于功能重复，且接口的命名也不对",
+    "返回参数": "1通过 0不通过",
+    "示例": "local ok =checkmonsterdrop(playerId, \"checklevel>1\")"
+  },
+  "getmonsterowner": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:怪物的唯一ID",
+    "接口功能详述": "获取怪物归属",
+    "返回参数": "怪物归属者id",
+    "示例": "local owerid = getmonsterowner(actor,2756)"
+  },
+  "setmonsterowner": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:怪物唯一id\n参数2:归属者的ID",
+    "接口功能详述": "设置怪物归属",
+    "返回参数": "无",
+    "示例": "setmonsterowner(actor,2756,181455762367)"
+  },
+  "getlastmonster": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取上次打的怪，也就是最后攻击过的怪物",
+    "返回参数": "怪物唯一ID",
+    "示例": "lastmonid = getlastmonster(actor)"
+  },
+  "culdroptablebyname": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:tableName（掉落表名）\n参数2:爆率的倍率\n参数3:掉落组记录次数\n参数4:指定道具倍率",
+    "接口功能详述": "指定掉落表明计算出掉落的道具",
+    "返回参数": "掉落的道具数据，table类型，数据格式如下\n{itemId1=itemCount1, itemId2=itemCount2}",
+    "示例": "result = culdroptablebyname(actor,tablename,rate,dropCount)"
+  },
+  "setmonsterrelivetime": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:怪物复活时间，单位毫秒时间戳",
+    "接口功能详述": "怪物死亡后，可设置它的复活时间",
+    "返回参数": "无",
+    "示例": "setmonsterrelivetime(monsterActor, reliveTime)"
+  },
+  "randommonsterbornpoint": {
+    "模块": "怪物",
+    "参数说明": "参数1:地图配置ID \n参数2:地图分线",
+    "接口功能详述": "在地图上随机一个坐标，这个坐标不可以在安全区，不可以是阻挡点",
+    "返回参数": "table类型，字段格式如下\nx:x坐标\ny:y坐标\nblock :是否为阻挡点(一定是false)，所有这个字段没意义\nseft :是否是安全区(一定是false)，所以这个字段没意义",
+    "示例": "local point = randommonsterbornpoint(1001,1)"
+  },
+  "monsterdiedroptomap": {
+    "模块": "怪物",
+    "参数说明": "参数0:monsterActor 怪物对象\n参数1:mapId 地图id\n参数2:bossDropCfgId 掉落表配置id\n参数3:itemMap 道具map（k:道具配置id，v:道具数量）\n参数4:mainOwner 掉落主归属玩家id(直接入包的道具会发给该玩家)，可不填\n参数5:owners 所有归属玩家id， 可不填",
+    "接口功能详述": "将怪物死亡后随机的道具掉落到地图中。这个接口只有在所有掉落的道具出现在地图上了，才算执行结束，也就是说它会被掉落道具的过程中阻塞住",
+    "返回参数": "无",
+    "示例": "monsterdiedroptomap(monsterActor, mapId, bossDropCfgId, itemMap,mainOwner,owners)"
+  },
+  " monsterdiedroptomapasync": {
+    "模块": "怪物",
+    "参数说明": "参数1:monsterActor 怪物对象\n参数2:mapId 地图id\n参数3:bossDropCfgId 掉落表配置id\n参数4:itemMap 道具map（k:道具配置id，v:道具数量）\n参数5:mainOwner 掉落主归属玩家id(直接入包的道具会发给该玩家)\n参数6:owners 所有归属玩家id",
+    "接口功能详述": "将怪物死亡后随机的道具掉落到地图中(异步)。这个接口不会等待道具全部掉落到地图上，所以它的执行速度较快，但是执行结束了可能道具还未出现在地图上，假如这个接口之后的代码会去获取掉落的道具对象，那么会出错",
+    "返回参数": "无",
+    "示例": "monsterdiedroptomapasync(monsterActor, mapId, bossDropCfgId, itemMap,mainOwner,owners)"
+  },
+  "isdupmode": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:0或不填检查是否和人、怪、npc有重叠。1只检查和人是否有重叠",
+    "接口功能详述": "检测玩家是否和别的对象站在同一个坐标点上",
+    "返回参数": "true | false",
+    "示例": "local ok = isdupmode(actor,1)"
+  },
+  "insafezone": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "检测人物是否在安全区",
+    "返回参数": "true | false",
+    "示例": "local ok =insafezone(actor)"
+  },
+  "checkmapmove": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:地图配置ID\n参数2:x坐标\n参数3:y坐标",
+    "接口功能详述": "检测玩家是否可以落到指定的坐标点上",
+    "返回参数": "true | false",
+    "示例": "checkmapmove(actor,1001,100,200)"
+  },
+  "isofflineplay": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "检测玩家是否处于离线挂机",
+    "返回参数": "true | false",
+    "示例": "isofflineplay(actor)"
+  },
+  "getrolesetting": {
+    "模块": "玩家",
+    "参数说明": "参数0:玩家角色actor",
+    "接口功能详述": "获取玩家角色设置信息，也就是RoleSetting",
+    "返回参数": "table类型，玩家角色相关基本数据",
+    "示例": "local settingInfo = getrolesetting(actor)\nlocal autoPickUp = settingInfo.autoPickUp \n--自动拾取相关配置，包含如下配置\n    ZERO = 0; //无意义字段，用于占位\n    COINS = 1; //金币\n    BIND_MIRACLE_CURRENCY = 2; //绑定奇迹币\n    DIAMOND = 3; //钻石\n    GEM_STONE = 4; //宝石原石\n    MATERIAL = 5; //材料\n    Skill_BOOKS = 6; //技能书\n    WHITE_EQUIP = 7; //白色装备\n    GREEN_EQUIP = 8; //绿色装备\n    RED_EQUIP = 9;   //红色装备\n\nlocal settingData = settingInfo.settings\n--settingData里包含如下设置信息\n    BAG_SHORTCUT = 0; //背包快捷栏\n    FIGHT_MODE = 1; //攻击模式\n    AUTO_ACCEPT_TEAM_INVITE = 2; //自动接受组队邀请开关\n    BASIC_BACKGROUND = 3; //背景音乐\n    BASIC_SOUND = 4;  //音效\n    BASIE_VOICE = 5;  //语音\n    BASIE_ROCKER = 6; //固定摇杆、移动摇杆\n    HIDING_PLAYER_MODEL = 7;  //隐藏玩家模型\n    HIDE_PLAYER_SKILL_EFFECTS = 8;  //隐藏玩家技能特效\n    HIDE_PLAYER_WINGS = 9;  //隐藏玩家翅膀\n    HIDING_PLAYER_FOOTPRINTS = 10;  //隐藏玩家足迹\n    HIDDEN_SUMMONING_BEAST = 11;  //隐藏召唤兽\n    HIDDEN_MONSTER_MODEL = 12;  //隐藏怪物模型\n    HIDDEN_MONSTER_SKILL_EFFECTS = 13;  //隐藏怪物技能特效\n    PLAYERS_SHOW = 14;  //显示玩家数量\n    CLARITY = 15;   //清晰度\n    FRAME_RATE = 16;  //帧数FPS\n    AUTO_CONFIGURATION = 17;  //自动配置\n    AUTO_RECOVERY_SET = 18; //自动回收\n    LIMIT_NUMBER_OF_PLAYERS = 19; //限制玩家数量\n    WHOLE_SOUND = 20; //整体音效\n    SCENE_SOUND = 21;  //场景音效\n    BATTLE_SOUND = 22;    //战斗音效\n    SCENE_SCALE = 23;   //场景缩放设置\n    QJ5_LOCK_SCREEN = 24; //奇迹5锁定屏幕\n    ITEM_AUTO_PICKUP = 25; //道具自动拾取\n    WORLD_BOSS_BUFF = 26;  //世界boss弹出buff提醒\n    DAILY_ACTIVITY_RETRIEVE = 27; //日常活动找回\n    QJ5_HIDE_PARTNER = 28; //奇迹5隐藏伙伴\n    QJ5_HIDE_PARTNER_SKILL = 29; //奇迹5隐藏伙伴技能\n    AUTO_USE_ITEM = 30; //道具自动使用\n    HAND_SHOP = 31;//随身商店\n    HAND_WEARHOUSE = 32;//随身仓库\n    TRADE = 33;//交易行开启\n    AUTO_POTION = 34;//自动买药\n    HIDE_ME_WINGS = 35;//隐藏主角翅膀\n    CLICK_GROUND_WALK = 36;//点击地面行走"
+  },
+  "createrole": {
+    "模块": "玩家",
+    "参数说明": "参数1:玩家账号的uid\n参数2:角色名称\n参数3:角色的基础职业（1剑士 2魔法师 3弓箭手，在cfg_career表中配置）\n参数4:性别，1男2女（实际上没什么意义，因为性别是根据职业挂钩的，比如弓箭手是女的，法师和剑士是男的）",
+    "接口功能详述": "创建角色",
+    "返回参数": "true | false",
+    "示例": "createrole(actor,18164836214,\"xxxx\",1,1)"
+  },
+  "deleterole": {
+    "模块": "玩家",
+    "参数说明": "参数1:玩家账号的uid\n参数2:角色ID",
+    "接口功能详述": "删除角色",
+    "返回参数": "true | false",
+    "示例": "deleterole(18164836214,18054656462)"
+  },
+  "gainrandomrolename": {
+    "模块": "玩家",
+    "参数说明": "参数1:角色的基础职业（1剑士 2魔法师 3弓箭手，在cfg_career表中配置）\n参数2:上一次随机出的角色名字，传这个参数是为了防止随机出和上一次随机出名字重复的名字",
+    "接口功能详述": "随机出一个角色名字，创建角色的时候使用 ",
+    "返回参数": "名字",
+    "示例": "gainrandomrolename(actor,1,\"上一次随机出的名字\")"
+  },
+  "IsBagFullOrHasSpace": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor,\n参数1:道具配置ID和道具数量的键值对，因为奇迹背包道具占用的格子不同，所以检查背包是否放的下物品，需要传入要放入背包的道具才能判断",
+    "接口功能详述": "判断玩家背包是否满了",
+    "返回参数": "true|false",
+    "示例": "local full = isbagfullorhasspace(actor,\n{10001=100,10002=200})"
+  },
+  "getplayermaininfo": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取玩家的基本信息，玩家必须是在线的，离线玩家无法通过该接口获取数据",
+    "返回参数": "table类型，格式如下\nindup:是否在副本中,\nname:角色名字,\nfightmodel:战斗模式,\nunion:所在战盟的名称,\nlevel:等级,\ndupteamid:所在队伍的ID,\ncareer:职业ID,\nmaxhp:最大血量,\nhp:当前血量,\nmaxmp:最大魔法值量,\nmp:当前魔法值,\nfight:战斗力,\nmaxdc:最大攻击力,\narmor:防御力,\nmaxshield:最大护盾值,\nshield:护盾值,\nmaxagsto:最大技能值,\nagsto:技能值,\nremainattrs:剩余可分配的属性点数量,\nrid:角色id,\nmapid:角色所在地图的唯一ID,\nx:x坐标,\ny:y坐标,\naccepttask:正在进行中的任务id列表(table类型),\nbuff:角色身上的buff列表(只返回4个buff),列表中的每个buff数据格式，cfgid:配置id,totaltime:毫秒时间戳\n",
+    "示例": "local playerinfo = getplayermaininfo(actor)"
+  },
+  "getrolefield": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:数据字段的路径，如role.basic.name",
+    "接口功能详述": "访问角色的任何数据字段。这是一个后门接口，可以在lua脚本中直接读取引擎中角色的数据信息，为脚本开发功能提供方便之门。\n然而我们不是很建议使用这个接口，一来是性能不好，而来是角色的数据字段在后续版本迭代中有变更，因此升级引擎可能造成使用该接口的功能损坏或出bug。",
+    "返回参数": "访问数据内容，可以是任意类型",
+    "示例": "--读取角色名称\nlocal rolename  = getrolefield(actor,\"role.basic.name\")\n--读取当前穿戴的坐骑ID\nlocal curwearmountid = getrolefield(actor,\"role.rolemount.curwearmountid\")\n--读取当前骑乘的坐骑ID\nlocal curridemountid = getrolefield(actor,\"role.rolemount.curridemountid\")\n--读取外观信息\nlocal appear = getrolefield(actor,\"role.roleappear.appear\")\n--读取基础职业ID\nlocal basecareer = getrolefield(actor,\"role.basic.career.basecareer\")\n--读取属性加点方案\nlocal attraddway = getrolefield(actor,\"role.roleattribute.attraddway\")\n--读取属性信息\nlocal attribute = getrolefield(actor,\"role.roleattribute.attribute\")\n--读取连接技能信息\nlocal comboskill = getrolefield(actor,\"role.roleskill.comboskill\")"
+  },
+  "getrolesummaryinfobyrid": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取指定角色摘要信息",
+    "返回参数": "table类型，格式如下\nrid:角色id\nlevel:角色等级\ntotalRecharge:充值的金额\nexp:当前的经验\nbasecareer:基础职业ID,对应cfg_career表的baseCareer字段\ncareernum:职业编号，暂时废弃\ncareerrank:职业等级，对应cfg_career表的careerRank字段\nisonline:是否在线，0不在线，1在线\nunionid:所在战盟的id\nunionname:所在战盟的名字\nunionposition:在战盟中任职的职位",
+    "示例": "local data = getrolesummaryinfobyrid(actor)"
+  },
+  "getroleidbyname": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "根据玩家名称获取玩家ID",
+    "返回参数": "角色的ID",
+    "示例": "local roleid = getroleidbyname(actor,\"角色名字\")"
+  },
+  "checkplayerhp": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "比如玩家只有一半血了，那么返回值是",
+    "返回参数": "血量比值，小于1的小数",
+    "示例": "local scale = checkplayerhp(actor)"
+  },
+  "updateparam": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:类型(1走路速度，2跑步速度，3攻击速度，4技能动画时间加成)\n参数2:对用的值",
+    "接口功能详述": "设置玩家、怪物、宠物(伙伴)、召唤兽等对象走路速度，跑步速度，攻击速度，技能动画时间加成",
+    "返回参数": "无",
+    "示例": "updateparam(actor,1,100)"
+  },
+  "setloginmapline": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:地图线路",
+    "接口功能详述": "设置玩家登录的地图分线",
+    "返回参数": "无",
+    "示例": "setloginmapline(actor,1)"
+  },
+  "getplayersetting": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获得玩家所有设置，包含基本设置和挂机设置，其中基本设置部分请参考getrolesetting这个接口，这2个功能的接口功能上有重复",
+    "返回参数": "table类型，设置数据，数据格式如下\n{\n        \"settings\": {\n                \"1\": \"1\",\n                \"3\": \"0\",\n                \"18\": \"false#101\",\n                \"21\": \"0\"\n        },\n        \"hangupsetting\": {\n                \"autopickup\": {\n                        \"1\": \"1\",\n                        \"2\": \"1\",\n                        \"3\": \"1\",\n                        \"4\": \"1\",\n                        \"5\": \"1\",\n                        \"6\": \"1\",\n                        \"7\": \"1\",\n                        \"8\": \"1\"\n                },\n                \"killmonsterrange\": 4,\n                \"longrangecounterattack\": \"false\",\n                \"kmlhideplayername\": \"\",\n                \"kmlautorelease\": \"\",\n                \"qj5skill\": \"\",\n                \"lessthan\": \"0.0,0.0\",\n                \"autorelease\": 0,\n                \"qj5unskill\": \"\",\n                \"kmlfightsetting\": \"\",\n                \"kmlnocalltip\": \"\",\n                \"targetrange\": 4,\n                \"summonskill\": \"0\",\n                \"kmlcallskill\": \"\",\n                \"buffskill\": \"\",\n                \"kmlhidemewing\": \"\",\n                \"groupskill\": \"\",\n                \"qj5lessthan\": 0,\n                \"returnpoint\": \"false\",\n                \"partnerautokill\": 0,\n                \"monomerskill\": \"\",\n                \"interval\": \"\",\n                \"value\": \"\",\n                \"returntime\": \"10\"\n        },\n        \"skillshowtype\": {\n                \"allshow\": \"1100003#1100004#1100001#1100002#1100005#1100006#1100007#0\",\n                \"annulustype\": \"\",\n                \"showtype\": 2,\n                \"items\": \"30010020|0\"\n        }",
+    "示例": "getplayersetting(actor)"
+  },
+  "setplayersetting": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:修改的设置类型\n参数2:设置的值",
+    "接口功能详述": "修改玩家基本设置，支持修改的设置类型如下\n\n    BAG_SHORTCUT = 0; //背包快捷栏\n    FIGHT_MODE = 1; //攻击模式\n    AUTO_ACCEPT_TEAM_INVITE = 2; //自动接受组队邀请开关\n    BASIC_BACKGROUND = 3; //背景音乐\n    BASIC_SOUND = 4;  //音效\n    BASIE_VOICE = 5;  //语音\n    BASIE_ROCKER = 6; //固定摇杆、移动摇杆\n    HIDING_PLAYER_MODEL = 7;  //隐藏玩家模型\n    HIDE_PLAYER_SKILL_EFFECTS = 8;  //隐藏玩家技能特效\n    HIDE_PLAYER_WINGS = 9;  //隐藏玩家翅膀\n    HIDING_PLAYER_FOOTPRINTS = 10;  //隐藏玩家足迹\n    HIDDEN_SUMMONING_BEAST = 11;  //隐藏召唤兽\n    HIDDEN_MONSTER_MODEL = 12;  //隐藏怪物模型\n    HIDDEN_MONSTER_SKILL_EFFECTS = 13;  //隐藏怪物技能特效\n    PLAYERS_SHOW = 14;  //显示玩家数量\n    CLARITY = 15;   //清晰度\n    FRAME_RATE = 16;  //帧数FPS\n    AUTO_CONFIGURATION = 17;  //自动配置\n    AUTO_RECOVERY_SET = 18; //自动回收\n    LIMIT_NUMBER_OF_PLAYERS = 19; //限制玩家数量\n    WHOLE_SOUND = 20; //整体音效\n    SCENE_SOUND = 21;  //场景音效\n    BATTLE_SOUND = 22;    //战斗音效\n    SCENE_SCALE = 23;   //场景缩放设置\n    QJ5_LOCK_SCREEN = 24; //奇迹5锁定屏幕\n    ITEM_AUTO_PICKUP = 25; //道具自动拾取\n    WORLD_BOSS_BUFF = 26;  //世界boss弹出buff提醒\n    DAILY_ACTIVITY_RETRIEVE = 27; //日常活动找回\n    QJ5_HIDE_PARTNER = 28; //奇迹5隐藏伙伴\n    QJ5_HIDE_PARTNER_SKILL = 29; //奇迹5隐藏伙伴技能\n    AUTO_USE_ITEM = 30; //道具自动使用\n    HAND_SHOP = 31;//随身商店\n    HAND_WEARHOUSE = 32;//随身仓库\n    TRADE = 33;//交易行开启\n    AUTO_POTION = 34;//自动买药\n    HIDE_ME_WINGS = 35;//隐藏主角翅膀\n    CLICK_GROUND_WALK = 36;//点击地面行走",
+    "返回参数": "无",
+    "示例": "setplayersetting(actor,34,true)"
+  },
+  "getmyguild": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获得玩家的战盟，这接口返回的是一个对象，类型是GuildActor，表示一个战盟对象，很多战盟功能的接口，都依赖GuildActor这个对象。",
+    "返回参数": "GuildActor",
+    "示例": "getmyguild(actor)"
+  },
+  "setunionleader": {
+    "模块": "玩家",
+    "参数说明": "参数1:战盟ID\n参数2:盟主玩家ID",
+    "接口功能详述": "将玩家设置为战盟的盟主",
+    "返回参数": "0失败,1成功",
+    "示例": "setunionleader(actor, union_id, leader_id)"
+  },
+  "getbaseinfo": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:基础信息字段，有下面这些\nserverid ，读取服务器ID\noriginalserverid ，读取原始的服务器ID\ncrossserverid，获得当前的服的跨服ID\ncurrserverid，获得当前服的serverid，即使合了N次服，获得是当前的服ID\nservertype ，读取服务器类型\nnow ，读取当前毫秒时间戳\nnownano ，读取当前纳秒时间戳\nnowsec ，读取当前秒时间戳\nexp ，读取拥有的经验值\ndir ，读取玩家的朝向\ngroupmembercount ，读取队伍成员数量\nhp ，读取血量\nmp ，读取魔法量\nmaxhp ，读取最大血量\nmaxmp ，读取最大魔法量\nlevel ，读取角色级别\nrolename ，读取角色名字\nid ，读取id\nrid ，读取id\nunionid ，读取战盟ID\nuseraccount ，读取uid\nuid ，读取uid\nofflinedays ，读取离线天数（上一次登录时间到这次登录的时长）\nofflinehours ，读取离线小时数\nofflinemins ，读取离线分钟数\nofflinesecs ，读取离线秒数\nutcnow8 ，读取当前毫秒时间戳\njob ，读取职业名字\nlogintime ，读取登录时间\nloginlong ，读取登录时长，单位秒\nslavecount ，读取宠物数量\nmap ，读取地图的配置ID\nmapid ，读取地图的配置ID\nunimapid ，读取地图唯一ID\nmaptitle ，读取地图名字\nx ，读取x坐标\ny ，读取y坐标\nsafearea ，读取是否在安全区\nline ，读取地图线路\nguildname ，读取战盟名字\nguildid ，读取战盟ID\npetid ，读取宠物的ID\nusercount ，读取游戏中的玩家，包括离线挂机\ndatetime ，读取当前时间字符串\nstartservertime ，读取null\nyear ，读取年\nmonth ，读取月\nday ，读取日\nhour ，读取时\nweek ，读取一年当中的第几周\nweekday ，读取周几\nminute ，读取分\nsecond ，读取秒\nteamid ，读取队伍ID\nactivityid ，读取当前所在副本的活动ID\ngetcareerrank ，读取职业等级\ngetbasecareer ，读取基础职业\ngetcareernum ，读取职业编号\nfightmodel ，读取战斗模式\nserveropendays ，读取开服天数\nserveropentime ，读取开服时间，毫秒时间戳\ncrossopentime ，读取跨服开启时间，毫秒时间戳\nmapobjecttype ，读取地图对象类型\ncastermonsterid ，读取攻击者怪物配置ID\ncurrentshield ，读取当前护盾值\nofflinetime ，读取玩家下线时间，毫秒时间戳\nonhookduration ，读取离线挂机时间信息\nonhookfightexp ，读取离线挂机战斗经验\nonhook ，读取是否在离线挂机中\nonlinestate ，读取玩家在线状态\nmaster ，读取获得主人ID",
+    "接口功能详述": "获得玩家基本信息（常量）",
+    "返回参数": "对应基础信息的值，数值或者字符串",
+    "示例": "local result = getbaseinfo(actor,\"exp\")"
+  },
+  "inmap": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:要判断对象的id，如果不填，则判断actor",
+    "接口功能详述": "玩家是否在地图中（包括离线挂机的玩家）",
+    "返回参数": "0不在 1在",
+    "示例": "local in = inmap(actor)"
+  },
+  "getrolelist": {
+    "模块": "玩家",
+    "参数说明": "参数1:用户的uid，而不是rid",
+    "接口功能详述": "这个接口通常在创角界面使用。",
+    "返回参数": "table类型，角色的列表，每个角色包含如下字段\nid:角色id\nname:角色名字\nlevel:角色等级\nbasecareer:角色基础职业\ngetcareernum:角色职业编号\ngetcareerrank:角色职业等级\nfirstrecharge:角色首充金额\ntotalrecharge:角色充值总金额",
+    "示例": "local rolelist = getrolelist(actor,1814653646346)"
+  },
+  "playrevive": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:复活方式\n【\n1回城复活\n2立即入口复活（消耗道具）\n3立即原地复活（消耗道具）\n4自动入口复活\n5自动原地复活\n6免费立即入口复活\n7免费立即原地复活\n8免费等待时间复活点复活\n9消耗道具原地复活\n】\n\n参数2:1自动复活，2花钱复活  ",
+    "接口功能详述": "复活玩家",
+    "返回参数": "table类型，格式如下\n{result=true}或{result=false}",
+    "示例": "local data = playrevive(actor,1,1)\nlocal ok = data.result"
+  },
+  "setroleattaddway": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:属性加点方案类型,对应cfg_career表中careerRec字段内容的索引",
+    "接口功能详述": "设置基色属性加点类型的方案",
+    "返回参数": "如果设置成功返回设置的值，如果失败返回-1",
+    "示例": "local way = setroleattaddway(actor,0)"
+  },
+  "roletransfercareer": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:职业ID，cfg_career表的ID",
+    "接口功能详述": "角色转职",
+    "返回参数": "失败返回0，成功返回对应的职业ID，也就是参数2传入的职业ID",
+    "示例": "local careerCfgId = roletransfercareer(actor,101)"
+  },
+  "getrecyclingtype": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取已经设置回收类类型，此接口获得的值通过getrolesetting和getplayersetting接口也可获取，对应的设置类型是18",
+    "返回参数": "回收类型值列表",
+    "示例": "local type  = getrecyclingtype(actor)"
+  },
+  "setrecyclingtype": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:操作类型(1设置 0取消)\n参数2:回收类型",
+    "接口功能详述": "设置回收类型",
+    "返回参数": "false | true",
+    "示例": "setrecyclingtype(actor,1,1)"
+  },
+  "getautorecyclinginfo": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取玩家是否开启了自动回收",
+    "返回参数": "false | true",
+    "示例": "local on = getautorecyclinginfo(actor)"
+  },
+  "setautorecycling": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:回收操作类型(1开启 0取消)",
+    "接口功能详述": "设置玩家自动回收",
+    "返回参数": "false | true",
+    "示例": "setautorecycling(actor,1)"
+  },
+  "changerolename": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:角色名字",
+    "接口功能详述": "修改角色名字",
+    "返回参数": "无",
+    "示例": "changerolename(actor,\"角色新名字\")"
+  },
+  "checkrolename": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:角色名字",
+    "接口功能详述": "检查角色名字是否重复、合法",
+    "返回参数": "true:合法 | false:不合法或重复",
+    "示例": "checkrolename(actor,\"角色新名字\")"
+  },
+  "changerolecareer": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:职业表id",
+    "接口功能详述": "修改角色职业",
+    "返回参数": "false | true",
+    "示例": "changerolecareer(actor,1)"
+  },
+  "setplayeroutfightmodelvalue": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:外置模式唯一标识\n参数2:友军的唯一标识集合(数组类型)",
+    "接口功能详述": "设置玩家外置战斗模式的标识以及玩家友军标识集合 当玩家之间攻击时会检查对方的标识是否在自己友军标识集合中，如果存在则无法造成伤害。设置唯一标识只在战斗模式为外置模式时生效",
+    "返回参数": "无",
+    "示例": "setplayeroutfightmodelvalue(actor, 10001, {10001})"
+  },
+  "onhooksettime": {
+    "模块": "离线挂机",
+    "参数说明": "参数1：开始时间毫秒时间戳\n参数2：结束时间毫秒时间戳",
+    "接口功能详述": "设置离线挂机的开始和结束时间，可在玩家退出游戏事件(logout)中使用",
+    "返回参数": "无",
+    "示例": "onhooksettime(actor,1722850428,1722859428)"
+  },
+  "onhookstart": {
+    "模块": "离线挂机",
+    "参数说明": "参数0:actor\n参数1:操作类型 0-原地挂机 1-传送到挂机点挂机\n当参数1为0时\n  - 参数2:是否拾取物品 0-不拾取 1-拾取\n当参数1为1时\n  - 参数2:x坐标\n  - 参数3:y坐标\n  - 参数4:是否拾取物品 0-不拾取 1-拾取",
+    "接口功能详述": "开始离线挂机，可在玩家退出游戏事件(logout)中使用",
+    "返回参数": "无",
+    "示例": "onhookstart(actor, 1, 111, 112, 1)"
+  },
+  "onhookstop": {
+    "模块": "离线挂机",
+    "参数说明": "参数0:actor\n情况1:结束后传送到指定的位置\n  - 参数1:地图id\n  - 参数2:x坐标\n  - 参数3:y坐标\n情况2:\n  无参数",
+    "接口功能详述": "结束离线挂机",
+    "返回参数": "无",
+    "示例": "onhookstop(actor)\nonhookstop(actor,1001,57,78)"
+  },
+  "getonhookinfo": {
+    "模块": "离线挂机",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "离线挂机结束后，获取获取挂机的统计数据",
+    "返回参数": "table类型，字段说明如下\nduration:离线挂机时长（单位秒）,\nfightDuration:打怪时长（单位秒）,\nfightExp:打怪获得的经验,\nfreeDuration:泡点时长（单位秒）,\nfreeExp:泡点经验,\nkillerName:如果被击杀，返回击杀者名称,\nreceiveExp:是否已经领取了经验奖励,\nlogInfo:离线挂机日志信息",
+    "示例": "local onhookinfo = getonhookinfo(actor)"
+  },
+  "receiveonhookexp": {
+    "模块": "离线挂机",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "领取离线挂机经验",
+    "返回参数": "领取到的经验值",
+    "示例": "local exp = receiveonhookexp(actor)"
+  },
+  "receiveonhookitem": {
+    "模块": "离线挂机",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "领取离线挂机道具",
+    "返回参数": "table类型，数据格式{result=true}或{result=false}",
+    "示例": "local data = receiveonhookitem(actor\nlocal ok = data.result"
+  },
+  "pickuprounditem": {
+    "模块": "掉落",
+    "参数说明": "参数0:actor\n参数1:地图中道具对象的唯一ID\n参数2:拾取类型(0走过去拾取 1装备范围拾取 2GM人范围拾取 3角色范围自动拾取 4宠物范围自动拾取)",
+    "接口功能详述": "拾取单个掉落在地图上的物品道具",
+    "返回参数": "无",
+    "示例": "result = pickuprounditem(actor,2757,3)"
+  },
+  "pickuprangeitem": {
+    "模块": "掉落",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "自动拾取范围内的道具，拾取的规则配置在cfg_global表中id为231的行中",
+    "返回参数": "无",
+    "示例": "result =  pickuprangeitem(actor)"
+  },
+  "removedropitem": {
+    "模块": "掉落",
+    "参数说明": "参数0:actor\n参数1:地图上道具的唯一ID",
+    "接口功能详述": "移除掉落道具",
+    "返回参数": "true | false",
+    "示例": "removedropitem(actor, objId)"
+  },
+  "throwitem": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:地图唯一ID\n参数2:x坐标 \n参数3:y坐标 \n参数4:范围 \n参数5:道具配置ID \n参数6:道具数量\n参数7:归属者保护时间，毫秒时间戳(默认0)\n参数8:拾取类型，0都不可以捡起，1都可以捡起，2队伍可以捡起，3自己可以捡起（默认为0）\n参数9:是否叠加（默认为0叠加）  ",
+    "接口功能详述": "在地图上生成一个道具（物品）",
+    "返回参数": "无",
+    "示例": " throwitem(actor, mapId, x, y, 1, itemId, count, 10000000, 3, 0)"
+  },
+  "clearitemmap": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:地图唯一id\n参数2:x坐标 \n参数3:y坐标 \n参数4:范围\n参数5:道具名称(不指定或者传*，则清除范围内所有道具，否则清除指定名称的道具)",
+    "接口功能详述": "清理地图上指定名字的道具（物品）",
+    "返回参数": "无",
+    "示例": "local data = clearitemmap(actor,2050049,115,120,1,\"背叛者\")"
+  },
+  "additemtobag": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:itemCfgId \n参数2:道具数量 \n参数3:是否绑定（0不绑定,1绑定,默认为0），此参数受cfg_item表的lockItem字段影响，只有该字段值为0，此参数设置才有效 \n参数4:原因（0系统发放，1泡点，2击杀怪物，9999 lua脚本自定义）默认是0\n参数5:原因描述，如果参数4传9999，则可以用这个参数传入自定义描述，值会被写入物品变化日志，供定位问题或统计数据使用",
+    "接口功能详述": "给玩家背包发放单个道具",
+    "返回参数": "当添加一个道具时，返回道具唯一id，出错或其他情况则返回0",
+    "示例": "additemtobag(actor,20100002,100)\n--或者\nadditemtobag(actor,20100002,100,0,9999,\"恶魔广场奖励\")"
+  },
+  "additemtootherbag": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:目标rid\n参数2:itemCfgId \n参数3 道具数量 \n参数4:是否绑定（0不绑定,1绑定,默认为0） ，此参数受cfg_item表的lockItem字段影响，只有该字段值为0，此参数设置才有效 \n参数5:原因（0系统发放，1泡点，2击杀怪物，9999 lua脚本自定义）默认是0",
+    "接口功能详述": "这个接口和additemtobag重复了，并且功能没有additemtobag完善，所以不建议使用，如果要发送道具请用additemtobag替代",
+    "返回参数": "true|false",
+    "示例": "additemtootherbag(actor,rid,20100002,0)"
+  },
+  "additemmaptobag": {
+    "模块": "物品和装备",
+    "参数说明": "\n参数0:actor\n参数1 道具集合，table类型的键值对，key是道具配置ID,value是道具数量\n参数2 是否绑定（0不绑定,1绑定,默认为0） ，此参数受cfg_item表的lockItem字段影响，只有该字段值为0，此参数设置才有效 \n参数3:原因（0系统发放，1泡点，2击杀怪物，9999 lua脚本自定义）默认是0\n参数4:原因描述，如果参数4传9999，则可以用这个参数传入自定义描述，值会被写入物品变化日志，供定位问题或统计数据使用",
+    "接口功能详述": "给玩家背包批量发放道具",
+    "返回参数": "true|false",
+    "示例": "local paramMap = {}\n    paramMap[\"20100001\"] = 1\n    paramMap[\"20100002\"] = 1\n    local ok = additemmaptobag(actor,paramMap)\n--或者\n  local yes = additemmaptobag(actor,paramMap,0,9999,\"每日任务\")"
+  },
+  "showadditempanel": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1：table类型，table的每一项是一个字符串，格式:\"道具id#道具数量\"，示例数据{\"100000#200\",\"100001#100\"}",
+    "接口功能详述": "显示增加物品的面板，调用这个接口后，客户端会收到ResReceiveItemMessage这个消息，然后根据消息的内容弹出一个显示物品的面板",
+    "返回参数": "无",
+    "示例": "local paramMap = {\"20100001#1\",\"20100002#1\"}\nlocal data = showadditempanel(actor,paramMap)"
+  },
+  "removeitemfrombag": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具配置ID \n参数2:要删除的数量 \n参数3:是否绑定（默认为0）\n参数4:原因（0系统，9999 lua脚本自定义）默认是0\n参数5:原因描述，如果参数4传9999，则可以用这个参数传入自定义描述，值会被写入物品变化日志，供定位问题或统计数据使用",
+    "接口功能详述": "移除玩家背包里的道具",
+    "返回参数": "无",
+    "示例": "local data = removeitemfrombag(actor,20100001,1,0,9999,\"进入秘境BOSS消耗\")"
+  },
+  "removeitembyidxlist": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:要删除的道具索引表。这个参数有2中模式，如果是键值对，则key是要删除道具的索引，value是要删除的数量；如果是列表，表示是要删除的道具索引的列表，删除每个索引上的全部数量的道具。\n参数2:原因（0系统，9999 lua脚本自定义）默认是0\n参数3:原因描述，如果参数4传9999，则可以用这个参数传入自定义描述，值会被写入物品变化日志，供定位问题或统计数据使用",
+    "接口功能详述": "根据索引删除背包中的道具",
+    "返回参数": "无",
+    "示例": "removeitembyidxlist(actor, 10101, {10102=50,10103=100} ,9999,\"进入秘境消耗\")\n--或者\nremoveitembyidxlist(actor, 10101, {10102,10103} ,9999,\"进入秘境消耗\")"
+  },
+  "getbagitemcountbyid": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具cfgId \n参数2:绑定类型，不填返回所有道具数量，填0返回非绑定道具数量，填1返回绑定道具数量",
+    "接口功能详述": "获得背包中某个道具的数量",
+    "返回参数": "道具的数量",
+    "示例": "local data = getbagitemcountbyid(actor,20100001)"
+  },
+  "getallbagitem": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取玩家背包中所有道具信息，返回的数据较少",
+    "返回参数": "道具列表，列表的每一项包含2个字段\ncfg_id:道具的配置表ID\nid:道具的唯一ID",
+    "示例": "local data = getallbagitem(actor)"
+  },
+  "getallbagiteminfo": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取玩家背包中所有道具信息，返回的数据较全",
+    "返回参数": "table类型的道具列表，列表的每一项包含如下字段\nid:道具的唯一ID\ncfgid:道具的配置表ID\ncount:道具数量\nbagindex:道具在背包中的索引\nisbind:是否是绑定道具\ntype:道具类型（cfg_item表的type）\nfrom:道具来源",
+    "示例": "local data = getallbagiteminfo(actor)"
+  },
+  "getequipattrbypos": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:装备部位索引\n参数2:属性id",
+    "接口功能详述": "根据装备索引获取对应装备的单个基础属性值",
+    "返回参数": "装备对应属性值",
+    "示例": "local data = getequipattrbypos(actor,65539,201011)"
+  },
+  "getitembaseinfo": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:位置（背包1，仓库2，穿戴3，交易行11，摆摊21，邮件24）\n参数2:道具唯一id\n参数3:道具配置ID",
+    "接口功能详述": "获取装备(道具)基础信息",
+    "返回参数": "table类型，装备(道具)的基础信息，格式如下\nendtimetec:过期时间\ncount:道具数量\nitemcfgid:道具配置ID\nname:道具的名字\ntype:道具的子类型(cfg_item的subtype字段)\nunTrade:是否可以商家交易行",
+    "示例": "local data = getitembaseinfo(actor,1,18015988972605440,20100001)"
+  },
+  "getitemattinfo": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:位置（背包1，仓库2，穿戴3，交易行11，摆摊21，邮件24）\n参数2:道具配置ID\n参数3:道具唯一id",
+    "接口功能详述": "获取装备(道具)属性信息",
+    "返回参数": "table类型，装备(道具)属性信息（字段比较多，这里就不一一列出来的，请自己打印查看）",
+    "示例": "local data = getitemattinfo(actor,1,20100001,18015988972605440)"
+  },
+  "getotheritemattinfo": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:位置（背包1，仓库2，穿戴3，交易行11，摆摊21，邮件24）\n参数2:要查看的玩家的rid\n参数3:道具唯一id",
+    "接口功能详述": "获取其他人装备(道具)信息。这个接口可以用 getitemattinfo 替代，传对应玩家的actor即可",
+    "返回参数": "table类型，装备(道具)属性信息（字段比较多，这里就不一一列出来的，请自己打印查看）",
+    "示例": "local data = getotheritemattinfo(actor,1,otherrid,18015988972605440)"
+  },
+  "itemdecomposition": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:要分解的道具索引和数量集合，table类型\n参数2:分解生成的道具配置ID和数量集合，table类型\n参数3:分解消耗的道具配置ID和数量集合，table类型",
+    "接口功能详述": "将拥有的道具或者装备分解成其他道具，分解需要额外的消耗",
+    "返回参数": "true|false",
+    "示例": "local info =  itemdecomposition(actor,decompositionItemList,decompositionObtainList,decompositionNeedList)"
+  },
+  "itemrecovery": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:要回收的道具索引和数量集合，table类型\n参数2:回收获得的道具配置ID和数量集合,table类型",
+    "接口功能详述": "将拥有的道具或者装备转换成其他道具，回收不需要额外的消耗",
+    "返回参数": "true|false",
+    "示例": "\n   local info = itemrecovery(actor,recyclingItemList,recyclingObtainList) "
+  },
+  "getbagitemandequip": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:装备类型\n参数2:装备唯一id（可不填）",
+    "接口功能详述": "获取玩家背包和穿戴的装备信息。此接口会把所有道具返回，比如某种道具有1000件，这个接口会返回1000个数据项，而不是道具ID加数量，因此有性能问题，不建议使用",
+    "返回参数": "table类型。背包、装备栏里的道具的唯一id、配置ID、品阶的结合",
+    "示例": "local data= getbagitemandequip(actor,1,18015988972605442)"
+  },
+  "destroyitemafter": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:背包中道具索引",
+    "接口功能详述": "销毁一个道具，和回收分解不同，销毁的道具没有任何收益。另外，此接口的命名有问题，且已无法修改",
+    "返回参数": "无",
+    "示例": "destroyitem(actor,10101)"
+  },
+  "putontheequip": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:背包中要穿戴的装备的索引\n参数2:目标装备栏索引",
+    "接口功能详述": "穿上装备，此接口会穿上背包中的装备，如已经穿着对应的装备，则该装备会被替换下来",
+    "返回参数": "1 （成功）| 0（失败）",
+    "示例": "putontheequip(actor,10101,65539)"
+  },
+  "takeofftheequip": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:装备栏道具索引",
+    "接口功能详述": "把装备栏上指定的装备脱下到背包里",
+    "返回参数": "无",
+    "示例": "takeofftheequip(actor,65539)"
+  },
+  "getalliteminfoinstore": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:仓库第几页",
+    "接口功能详述": "获取角色仓库中的某一页的所有物品信息",
+    "返回参数": "table类型，仓库第几页所有道具信息列表，列表的每一项包含如下字段\nid:道具的唯一ID\ncfgid:道具的配置表ID\ncount:道具数量\nbagindex:道具在背包中的索引\nisbind:是否是绑定道具\ntype:道具类型（cfg_item表的type）\nfrom:道具来源",
+    "示例": "local data = getalliteminfoinstore(actor,1)"
+  },
+  "getallbagiteminfonew": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取背包内所有道具信息，功能和getallbagiteminfo接口一样，所以不建议使用该接口",
+    "返回参数": "所有道具信息",
+    "示例": "local data = getallbagiteminfonew(actor)"
+  },
+  "checkitemscanputbag": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具列表，道具id和道具数量的键值对集合",
+    "接口功能详述": "检查道具是否可以放入背包，比如背包是否满了",
+    "返回参数": "1（能） | 0（不能）",
+    "示例": "local paramMap = {}\n    paramMap[\"cfg_id\"] = 20800331\n    paramMap[\"count\"] = 1\n    local paramMap2 = {}\n    paramMap2[\"cfg_id\"] = 20800332\n    paramMap2[\"count\"] = 1\n    local param = {paramMap,paramMap2}\n    local data = checkitemscanputbag(actor,param)"
+  },
+  "getallequipinfo": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取所有装备信息，包括背包里的装备",
+    "返回参数": "table类型，所有装备数据集合，列表的每一项包含如下字段\nid:装备的唯一ID\nequipindex:装备索引\nbagindex:0\nentrygrade:词条潜能对应的词条品阶\ngrade:品阶\ncfgid:道具的配置表ID\nisbind:是否绑定\nfrom:道具来源\nentries:词条集合\nbasicattr:基础属性集合",
+    "示例": "local data = getallequipinfo(actor)"
+  },
+  "getputonequipinfo": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:rid(不填默认取actor的数据)",
+    "接口功能详述": "获取玩家身上穿戴的所有装备",
+    "返回参数": "table类型，所有已穿戴装备数据集合，列表的每一项包含如下字段\nid:装备的唯一ID\nequipindex:装备索引\nbagindex:0\nentrygrade:词条潜能对应的词条品阶\ngrade:品阶\ncfgid:道具的配置表ID\nisbind:是否绑定\nfrom:道具来源\nentries:词条集合\nbasicattr:基础属性集合",
+    "示例": "local data = getputonequipinfo(actor,rid)"
+  },
+  "getequipinfo": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:装备索引或者唯一id\n参数2:值为0,参数1为装备索引;值为1,参数1为唯一id",
+    "接口功能详述": "根据装备索引(或者装备唯一ID)获取装备信息",
+    "返回参数": "装备信息table，有如下字段\nid:装备的唯一ID\nequipindex:装备索引\nbagindex:0\nentrygrade:词条潜能对应的词条品阶\ngrade:品阶\ncfgid:道具的配置表ID\nisbind:是否绑定\nfrom:道具来源\nentries:词条集合\nbasicattr:基础属性集合",
+    "示例": "local data= getequipinfo(actor,65539,0)"
+  },
+  "getitembytypeandsubtype": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具type\n参数2:道具subtype\n参数3：查询道具位置 （1:背包，2：仓库 ， 3：穿戴）",
+    "接口功能详述": "根据type和subtype 获取一类道具信息",
+    "返回参数": "装备信息table，有如下字段\nid:装备的唯一ID\nequipindex:装备索引\nbagindex:0\nentrygrade:词条潜能对应的词条品阶\ngrade:品阶\ncfgid:道具的配置表ID\nisbind:是否绑定\nfrom:道具来源\nentries:词条集合\nbasicattr:基础属性集合",
+    "示例": "local data= getequipinfo(actor,2,13,1)"
+  },
+  "useitembyindex": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具索引\n参数2:使用的数量",
+    "接口功能详述": "根据背包索引使用道具，该接口使用的道具必须是cfg_item表的type字段为3、4、6、7、99这集中类型的道具",
+    "返回参数": "true|false",
+    "示例": "local ok = useitembyindex(actor,10101,100)"
+  },
+  "useitembycfgid": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具cfgId\n参数2:道具数量\"",
+    "接口功能详述": "根据道具配置ID使用道具，该接口使用的道具必须是cfg_item表的type字段为3、4、6、7、99这集中类型的道具",
+    "返回参数": "true|false",
+    "示例": "local ok = useitembycfgid(actor,1090001,100)"
+  },
+  "quickbuy": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:货币id\n参数2:货币数量\n参数3:要购买的物品cfgId",
+    "接口功能详述": "根据cfg_item表字段Quickshopping配置的信息快捷购买道具，只有传入的货币id和数量和配置的数据匹配才能购买成功。",
+    "返回参数": "无",
+    "示例": "quickbuy(actor,10020001,1000,2010001)"
+  },
+  "getequipentry": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具唯一id",
+    "接口功能详述": "获取装备词条的属性信息，注意此接口只支持在在线玩家",
+    "返回参数": "装备词条属性信息，示例数据如下\n{{attrid=1001,value=100},{attrid=1002,value=100}}",
+    "示例": "local data = getequipentry(actor,18015988972605442)"
+  },
+  "checkequipwear": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具cfgId",
+    "接口功能详述": "判断装备是否可以被角色穿戴",
+    "返回参数": "1（可以） | 0（不可以）",
+    "示例": "local data =checkequipwear(actor,2010001)"
+  },
+  "getitemextdata": {
+    "模块": "道具",
+    "参数说明": "参数0:actor\n参数1:道具的唯一id",
+    "接口功能详述": "获取道具或者装备的脚本额外数据",
+    "返回参数": "通过setitemextdata的数据",
+    "示例": "local info = getitemextdata(actor, id)"
+  },
+  "setitemextdata": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具唯一id\n参数2:lua扩展数据，详细格式见示例",
+    "接口功能详述": "设置道具或者装备的脚本额外数据",
+    "返回参数": "无",
+    "示例": "local itemid = 180321903912312319\nlocal equipdata ={}\nequipdata.strengthlv = 1\nequipdata.strengthattr={}\nequipdata.strengthattr[100] = 122\nequipdata.appendlv = 2\nequipdata.appendattr={}\nequipdata.appendattr[101] = 102 -- 下标是属性id，值是属性值\nsetitemextdata(actor,itemid,equipdata)"
+  },
+  "getequipgmext": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具唯一id",
+    "接口功能详述": "获取装备gm扩展属性，此接口的数据是给客户端使用的，因此和getitemextdata接口的功能是不一样的，请使用者不要搞混",
+    "返回参数": "string",
+    "示例": "local gmextdata = getequipgmext(actor,itemid)"
+  },
+  "setequipgmext": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:道具唯一id\n参数2:table类型，存储客户端需要用到的装备扩展属性",
+    "接口功能详述": "设置装备gm扩展属性，此接口设置的数据是通过内置装备协议传递给客户端使用的，因此它和setitemextdata有本质的区别",
+    "返回参数": "无",
+    "示例": "local itemid = 180321903912312319\nlocal equipdata ={}\nequipdata.strengthlv = 1\nequipdata.appendlv = 1\nsetequipgmext(actor,itemid,equipdata)"
+  },
+  "changeitembindstate": {
+    "模块": "物品和装备",
+    "参数说明": "参数0,：actor\n参数1：道具唯一id\n参数2: 0非绑定  或者  1绑定",
+    "接口功能详述": "锻造后修改装备为绑定状态",
+    "返回参数": "无",
+    "示例": "changeitembindstate(actor,19124235272910848,1)"
+  },
+  "kmlmoveitem": {
+    "模块": "背包和仓库",
+    "参数说明": "参数1：操作类型,1:背包道具移动到仓库 2:仓库道具移动到背包\n参数2：道具唯一ID\n参数3：仓库页码(如果是仓库道具移动到背包，则不需要此字段)",
+    "接口功能详述": "背包和仓库之间物品移动",
+    "返回参数": "无",
+    "示例": "kmlmoveitem(1,50030003,1)"
+  },
+  "getbagdata": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获得玩家背包中的道具数据，不建议使用此接口，可使用 getallbagiteminfo之类接口替代",
+    "返回参数": "道具集合，示例如数如下\n{\n        items={\n                {id=10001,cfgid=1001,indx=1,count=100},\n                {id=10001,cfgid=1001,indx=1,count=100},\n                {id=10001,cfgid=1001,indx=1,count=100}\n        }\n}",
+    "示例": "getbagdata()"
+  },
+  "tidybag": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:操作类型,1背包整理,2仓库整理\n参数2:页码(整理仓库需要使用该参数)",
+    "接口功能详述": "背包仓库整理",
+    "返回参数": "1成功,0失败",
+    "示例": "tidybag(2,1)"
+  },
+  "bagaddcapacity": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:是否消耗道具 1消耗,0不消耗(消耗的道具配在cfg_global表id=107的配置中)",
+    "接口功能详述": "给背包扩容",
+    "返回参数": "无",
+    "示例": "bagaddcapacity(1)"
+  },
+  "getstoremaxpage": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "得到仓库目前的最大页数",
+    "返回参数": "数值:仓库最大页",
+    "示例": "local maxPage = getstoremaxpage(actor)"
+  },
+  "getbaglockedgridcount": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取背包锁定的格子数",
+    "返回参数": "数值:背包锁定格子数量",
+    "示例": "local count  = getbaglockedgridcount(actor)"
+  },
+  "getstorelockedgridcount": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:仓库页码",
+    "接口功能详述": "获取某个仓库页的锁定格子个数",
+    "返回参数": "数值:仓库页锁定格子数量",
+    "示例": "local count = getbaglockedgridcount(actor,1)"
+  },
+  "getstorenamebypage": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:仓库页码",
+    "接口功能详述": "得到指定仓库页的仓库名字",
+    "返回参数": "字符串：仓库页名称",
+    "示例": "local name  = getstorenamebypage(actor,1)"
+  },
+  "setstorename": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:仓库页码\n参数2:仓库页名称",
+    "接口功能详述": "设置仓库名字",
+    "返回参数": "无",
+    "示例": "setstorename(actor,1,\"仓库页1\")"
+  },
+  "storetobagorbagtostore": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:背包索引\n参数2:仓库索引\n参数3:操作类型,1从仓库往背包移动道具,2从背包往仓库移动道具",
+    "接口功能详述": "背包和仓库之间移动道具",
+    "返回参数": "无",
+    "示例": "storetobagorbagtostore(actor,10150,10151,1)"
+  },
+  "dragiteminstoreorinbag": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:移动前索引\n参数2:移动后索引\n参数3:操作类型,1从仓库往背包移动道具,2从背包往仓库移动道具,3从背包往背包移动道具,4从仓库往仓库移动道具",
+    "接口功能详述": "该接口主要有一下四种用途\n1、道具在仓库内移动\n2、道具在背包内移动\n3、道具从背包移动到仓库\n4、道具从仓库移动到背包\n该接口包含了\nkmlmoveitem和storetobagorbagtostore两个接口的功能",
+    "返回参数": "1成功,0失败",
+    "示例": "local ok = dragiteminstoreorinbag(actor,10150,10155,2)"
+  },
+  "giveupbagorstoreitem": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:道具索引\n参数2:操作类型,1背包,2仓库",
+    "接口功能详述": "丢弃背包或者仓库里面的道具",
+    "返回参数": "无",
+    "示例": "giveupbagorstoreitem(actor,10150,1)"
+  },
+  "storeaddpage": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:是否消耗道具,1消耗,0不消耗",
+    "接口功能详述": "增加仓库页，消耗的道具有cfg_global表id=195行配置",
+    "返回参数": "无",
+    "示例": "storeaddpage(actor,1)"
+  },
+  "storeaddcapacity": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:是否消耗道具,1消耗,0不消耗",
+    "接口功能详述": "给仓库页扩容，消耗的道具有cfg_global表id=159行配置",
+    "返回参数": "无",
+    "示例": "storeaddcapacity(actor,1)"
+  },
+  "gainbagidxbyitemid": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:道具唯一ID",
+    "接口功能详述": "根据道具唯一id获取道具在背包中的索引，如果没有获取到返回0，获取到则返回具体的背包索引",
+    "返回参数": "数值：背包索引",
+    "示例": "local bagIndex = gainbagidxbyitemid(actor,50030003)"
+  },
+  "getcfgidconfigbybagidx": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:背包索引",
+    "接口功能详述": "根据道具的背包索引获取道具的cfgId配置表id",
+    "返回参数": "数值：道具id",
+    "示例": "local cfgId = getcfgidconfigbybagidx(10150)"
+  },
+  "getcfgidbystoreidx": {
+    "模块": "背包和仓库",
+    "参数说明": "参数1：仓库索引",
+    "接口功能详述": "根据道具唯一id获取道具在仓库中的索引，如果没有获取到返回0，获取到返回具体的背包索引",
+    "返回参数": "数值：道具id",
+    "示例": "getcfgidbystoreidx(10150)"
+  },
+  "getbagiteminfo": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:背包索引或道具id\n参数2:操作类型,0.参数1为索引,1.参数1为唯一id",
+    "接口功能详述": "根据道具背包的索引或者唯一ID获取背包道具信息",
+    "返回参数": "键值对，包含如下字段\nid:道具的唯一ID\ncfgid:道具的配置表ID\ncount:道具数量\nbagindex:道具在背包中的索引\nisbind:是否是绑定道具\ntype:道具类型（cfg_item表的type）\nfrom:道具来源\nname:道具名称\nnamecolor:物品名称颜色",
+    "示例": "local itemInfo = getbagiteminfo(actor,10150,0)"
+  },
+  "checkitemscanputwarehouse": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:道具ID和道具数量的键值对",
+    "接口功能详述": "判断道具能不能装进仓库",
+    "返回参数": "1成功,0失败",
+    "示例": "local ok = checkitemscanputwarehouse(actor,{10001=100})"
+  },
+  "checkwarehousecapacityadd": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "判断是否满足仓库扩容条件，如扩容需要消耗的道具不足，或者扩容次数达到上限，都有可能返回失败",
+    "返回参数": "1成功,0失败",
+    "示例": "local ok = checkwarehousecapacityadd(actor)"
+  },
+  "checkwarehousepageadd": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "判断是否满足解锁仓库页条件",
+    "返回参数": "1成功,0失败",
+    "示例": "local ok = checkwarehousepageadd(actor)"
+  },
+  "lockbaggridcount": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0 :actor\n参数1:锁定格子数量（数量必须为背包列的倍数）",
+    "接口功能详述": "倒序锁定背包指定数量格子",
+    "返回参数": "true成功,false失败",
+    "示例": "local ok = lockbaggridcount(actor,16)"
+  },
+  "unlockbaggridcount": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0 :actor\n参数1:解锁格子数量（数量必须为背包列的倍数）",
+    "接口功能详述": "解锁指定数量的背包格子",
+    "返回参数": "true成功,false失败",
+    "示例": "local ok = unlockbaggridcount(actor,16)"
+  },
+  "lockstoregridcount": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0 :actor\n参数1:仓库页\n参数2:锁定的格子数量（不传则锁定整页）",
+    "接口功能详述": "锁定指定仓库页的指定数量的格子",
+    "返回参数": "true成功,false失败",
+    "示例": "local ok = lockstoregridcount(actor,1,16)"
+  },
+  "unlockstoregridcount": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0 :actor\n参数1:仓库页\n参数2:解锁的格子数量（不传则锁定整页）",
+    "接口功能详述": "解锁指定仓库页的指定数量的格子",
+    "返回参数": "true成功,false失败",
+    "示例": "local  ok = unlockstoregridcount(actor,1,16)"
+  },
+  "additemmaptostore": {
+    "模块": "背包和仓库",
+    "参数说明": "参数1:道具集合，道具ID和数量的键值对\n参数2:是否绑定（默认为0）\n参数3:原因（默认为0）",
+    "接口功能详述": "增加一批物品进仓库",
+    "返回参数": "无",
+    "示例": "additemmaptostore(actor, { [20310010] = 1 }, 0, \"拾取进入仓库\")"
+  },
+  "storehasspace": {
+    "模块": "背包和仓库",
+    "参数说明": "参数0:actor\n参数1:道具集合，道具ID和数量的键值对",
+    "接口功能详述": "仓库空间是否足够",
+    "返回参数": "true成功,false失败",
+    "示例": "local ok = storehasspace(actor, { [20310010] = 1 })"
+  },
+  "createteam": {
+    "模块": "组队",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "创建一个队伍",
+    "返回参数": "队伍信息，table类型，结构如下\nteamid:队伍ID\nleaderid:队长的ID，创建人默认是队长\nallteammemberinfo:队伍成员集合，集合的元素结构如下（如果成员不在线，则获取不到数据）\n-rid:成员id\n-mapcfgid:成员所在地图配置ID\n-mapline:成员所在地图线路\n-hp:成员血量\n-maxhp:成员最大血量\n-leader:该成员是否是队长\n        ",
+    "示例": "local teamInfo = createteam(actor)"
+  },
+  "getteaminfo": {
+    "模块": "组队",
+    "参数说明": "参数:队伍id",
+    "接口功能详述": "根据队伍ID获取队伍信息",
+    "返回参数": "队伍信息，table类型，结构如下\nteamid:队伍ID\nleaderid:队长的ID，创建人默认是队长\nallteammemberinfo:队伍成员集合，集合的元素结构如下（如果成员不在线，则获取不到数据）\n-rid:成员id\n-mapcfgid:成员所在地图配置ID\n-mapline:成员所在地图线路\n-hp:成员血量\n-maxhp:成员最大血量\n-leader:该成员是否是队长\n ",
+    "示例": "getteaminfo(actor,teamId)"
+  },
+  "getnarplayer": {
+    "模块": "组队",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取附近玩家信息，一般在队伍功能中使用该接口。注意，该功能有一个范围参数，表示获取多大范围的玩家，这个参数是在cfg_global表中id=41的行配置的",
+    "返回参数": "table类型，玩家集合，每个元素字段如下\ntargetbeeninvited:是否邀请了对方，1已经邀请，0未邀请\nname:玩家名字\nlevel:等级\ncareer:职业（职业编号#职业等级）\nunion:战盟名字\nrid:玩家ID\nluaplayer:玩家对应的luaActor",
+    "示例": "local list = getnarplayer(actor,teamid)"
+  },
+  "sendteaminvitation": {
+    "模块": "组队",
+    "参数说明": "参数0:actor(队长的actor)\n参数1:被邀请人id",
+    "接口功能详述": "发出队伍邀请",
+    "返回参数": "无",
+    "示例": "sendteaminvitation(actor,targetRid)"
+  },
+  "getinvitelistorapply": {
+    "模块": "组队",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取队伍被邀请入队人员和主动申请入队人员的数据",
+    "返回参数": "table类型，玩家集合，结合元素格式如下\nname:玩家名称\nrid:玩家ID\nlevel:玩家等级\ncareer:玩家职业(职业类型#职业等级)\noperation:人员类型,1申请人员,2被邀请人员",
+    "示例": "local list = getinvitelistorapply(actor)"
+  },
+  "replyinvitation": {
+    "模块": "组队",
+    "参数说明": "参数0:actor(队长的actor)\n参数1:邀请人id   \n参数2:0不同意,1同意",
+    "接口功能详述": "当玩家受到入队邀请后，需要通过此命令确认是否接受邀请",
+    "返回参数": "无",
+    "示例": "replyinvitation(actor,targetRid,agree)"
+  },
+  "nearbyteam": {
+    "模块": "组队",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取附近队伍列表。注意，该功能有一个范围参数，表示获取多大范围的队伍，这个参数是在cfg_global表中id=41的行配置的",
+    "返回参数": "table类型，队伍集合，结合的每个元素结构如下\nname:队伍名称\nteamId:队伍ID\ntotal:队伍内成员的数量",
+    "示例": "local teamlist = nearbyteam(actor)"
+  },
+  "applyjointeam": {
+    "模块": "组队",
+    "参数说明": "参数0:actor\n参数1:队伍id",
+    "接口功能详述": "主动申请加入队伍",
+    "返回参数": "无",
+    "示例": "applyjointeam(actor,teamId)"
+  },
+  "replyapply": {
+    "模块": "组队",
+    "参数说明": "参数0:actor(队长的actor)\n参数1:0不同意1同意  \n参数2:被回复人id",
+    "接口功能详述": "当玩家申请入队后，需要通过此命令确认是否接受申请入队",
+    "返回参数": "无",
+    "示例": "replyapply(actor,agree,targetRid)"
+  },
+  "kickoutmember": {
+    "模块": "组队",
+    "参数说明": "参数0:actor(队长的actor)\n参数1:被踢出队员id",
+    "接口功能详述": "踢出成员",
+    "返回参数": "无",
+    "示例": "kickoutmember(actor,targetRid)"
+  },
+  "changeleader": {
+    "模块": "组队",
+    "参数说明": "参数0:actor(队长的actor)\n参数1:被转移队长对象id",
+    "接口功能详述": "转移队长",
+    "返回参数": "队伍信息，table类型，结构如下\nteamid:队伍ID\nleaderid:队长的ID，创建人默认是队长\nallteammemberinfo:队伍成员集合，集合的元素结构如下（如果成员不在线，则获取不到数据）\n-rid:成员id\n-mapcfgid:成员所在地图配置ID\n-mapline:成员所在地图线路\n-hp:成员血量\n-maxhp:成员最大血量\n-leader:该成员是否是队长\n ",
+    "示例": "changeleader(actor,targetRid)"
+  },
+  "quiteteam": {
+    "模块": "组队",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "退出队伍",
+    "返回参数": "队伍信息，table类型，结构如下\nteamid:队伍ID\nleaderid:队长的ID，创建人默认是队长\nallteammemberinfo:队伍成员集合，集合的元素结构如下（如果成员不在线，则获取不到数据）\n-rid:成员id\n-mapcfgid:成员所在地图配置ID\n-mapline:成员所在地图线路\n-hp:成员血量\n-maxhp:成员最大血量\n-leader:该成员是否是队长\n ",
+    "示例": "quiteteam(actor)"
+  },
+  "agreeteamapply": {
+    "模块": "组队",
+    "参数说明": "参数0:actor(队长的actor)",
+    "接口功能详述": "同意所有入队申请，相当于批量同意入队申请",
+    "返回参数": "无",
+    "示例": "agreeteamapply(actor)"
+  },
+  "getequippedskillinfo": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:1全显示,2轮盘显示",
+    "接口功能详述": "获取已经装备到技能轮盘上的技能信息",
+    "返回参数": "返回值示例:0#1011001#1011006#1011012#0#0#0#0",
+    "示例": "local skills = getequippedskillinfo(actor,showType)"
+  },
+  "setequipskill": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:1全显示,2轮盘显示\n参数2:索引下标\n参数3:技能id",
+    "接口功能详述": "设置技能轮盘上的技能。效果和这个内置消息(ReqSkillShowTypeMessage)相似",
+    "返回参数": "无",
+    "示例": "setequipskill(actor,showType,index,skillId)"
+  },
+  "getstudiedskillinfo": {
+    "模块": "技能",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "得到所有已经学习的技能id",
+    "返回参数": "返回值示例:1011006#1011001#1011000#1011013#1011012",
+    "示例": "local skillstr = getstudiedskillinfo(actor)"
+  },
+  "getskilllevel": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:技能配置id",
+    "接口功能详述": "根据技能ID得到技能等级",
+    "返回参数": "技能等级",
+    "示例": "local skilllevel = getskilllevel(actor,skillId)"
+  },
+  "levelupskill": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:技能配置id\n参数2:需要升级到的技能等级\n参数3：技能是否可以使用  0 不可以 1 可以 (选填 默认1)",
+    "接口功能详述": "升级或者学习技能",
+    "返回参数": "无",
+    "示例": "levelupskill(actor,skillId,skillLevel)"
+  },
+  "setskillopen": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:技能配置id table\n参数2技能是否可以使用  0 不可以 1 可以",
+    "接口功能详述": "设置技能能不能使用",
+    "返回参数": "无",
+    "示例": "setskillopen(actor,{10001,10002},1)"
+  },
+  "skill": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:技能配置id\n参数2:技能等级\n参数3:攻击目标ID\n参数4:其他目标（可选参数。类型table，目标ID的集合）\n参数5:是否计算CD（可选参数，默认计算CD）",
+    "接口功能详述": "释放指定技能",
+    "返回参数": "无",
+    "示例": "skill(actor,skillId,skillLevel)\nskill(partner, skillId, skillLevel, targetId, {otherid1,otherid2}, 0)"
+  },
+  "skillexist": {
+    "模块": "技能",
+    "参数说明": "参数1：技能配置id\n参数2：技能等级",
+    "接口功能详述": "检查玩家是否学习了某个技能",
+    "返回参数": "true|false",
+    "示例": "local exists = skillexist(actor,skillId,skillLevel)"
+  },
+  "addcomboskill": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:技能配置id\n参数1:技能等级",
+    "接口功能详述": "添加连击技",
+    "返回参数": "true or false",
+    "示例": "addcomboskill(actor,skillCfgId,skillLv)"
+  },
+  "removeskill": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:需要移除的技能id数组",
+    "接口功能详述": "移除指定技能",
+    "返回参数": "无",
+    "示例": "removeskill(actor, {1100002,1100003})"
+  },
+  "getbuffinfo": {
+    "模块": "buff",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获得玩家身上的buffer数据",
+    "返回参数": "table类型，buffer集合，集合元素结构如下\ntotaltime:buffer持续时间，毫秒时间戳\nbuffcfgid:buffer配置ID\nbuffid:buffer唯一ID\nlayers:buffer层数\nbuffext:buffer扩展数据。键值对，根据不同的buffer类型，数据有不同的含义，如属性增益buffer这个字段就是属性ID和属性值的键值对",
+    "示例": "buff_info =getbuffinfo(actor)"
+  },
+  "addbuff": {
+    "模块": "buff",
+    "参数说明": "参数0:actor\n参数1:buffer配置ID\n参数2:buffer层数\n参数3:设置buffer的释放者（可不填）\n参数4:自定义数据（可用于替换buff表中buffvalue等字段的值）",
+    "接口功能详述": "给目标身上添加一个buffer",
+    "返回参数": "true|false",
+    "示例": "addbuff(actor,10110011,1,nil, {\n    buffValue= \"0#207011#2000\",\n    buffTotalTime=100000 --单位毫秒\n})"
+  },
+  "delbuff": {
+    "模块": "buff",
+    "参数说明": "参数0:actor\n参数1:buffer配置ID",
+    "接口功能详述": "删除目标身上的一个buffer",
+    "返回参数": "true|false",
+    "示例": "delbuff(actor,10110011)"
+  },
+  "hasbuff": {
+    "模块": "buff",
+    "参数说明": "参数0:actor\n参数1:buffer配置ID",
+    "接口功能详述": "目标身上是否存在某个buffer",
+    "返回参数": "true|false",
+    "示例": "hasbuff(actor,10110011)"
+  },
+  "setbuffertime": {
+    "模块": "buff",
+    "参数说明": "参数0:actor\n参数1:消减比例，如 0.2表示增加20%，-0.2表示消减20%",
+    "接口功能详述": "在buffer原有时间的基础上按比例增加或者减少时间",
+    "返回参数": "true|false",
+    "示例": "setbuffertime(actor,0.2) ,所有buffer时间增加20%"
+  },
+  "clearallbuff": {
+    "模块": "buff",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "清除目标身上的所有buffer",
+    "返回参数": "true|false",
+    "示例": "clearallbuff(actor)"
+  },
+  "getshopdata": {
+    "模块": "交易和商店",
+    "参数说明": "参数1:商城页签 cfg_menu_layer表id 也即cfg_shopMall表的subTab",
+    "接口功能详述": "获取商城对应页签下的数据",
+    "返回参数": "table类型，商品集合，集合元素结构如下\ngoodsid:商品ID\nlimitcount:限购数量",
+    "示例": "local shopData = getshopdata(actor,1003)"
+  },
+  "buymallgoods": {
+    "模块": "交易和商店",
+    "参数说明": "参数0:actor\n参数1:商品id,cfg_shopMall 的 id\n参数2:购买的商品数量",
+    "接口功能详述": "购买商城物品",
+    "返回参数": "true|false",
+    "示例": "buymallgoods(actor,6040164,1)"
+  },
+  "sethp": {
+    "模块": "战斗",
+    "参数说明": "参数0:actor\n参数1:血量值",
+    "接口功能详述": "设置地图中对象，包括玩家、怪物、宠物(伙伴)、召唤兽的血量",
+    "返回参数": "无",
+    "示例": "sethp(actor,1000)"
+  },
+  "setmp": {
+    "模块": "战斗",
+    "参数说明": "参数0:actor\n参数1:魔法值",
+    "接口功能详述": "设置地图中对象，包括玩家、怪物、宠物(伙伴)、召唤兽的魔法值（蓝量）",
+    "返回参数": "无",
+    "示例": "setmp(actor,1000)"
+  },
+  "isdead": {
+    "模块": "战斗",
+    "参数说明": "参数:actor",
+    "接口功能详述": "判断目标对象是否死亡",
+    "返回参数": "true | false",
+    "示例": "local dead = isdead(actor)"
+  },
+  "getfightstate": {
+    "模块": "战斗",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取角色当前战斗状态",
+    "返回参数": "1战斗,0非战斗",
+    "示例": "local state = getfightstate（actor）"
+  },
+  "checkisenemy": {
+    "模块": "战斗",
+    "参数说明": "参数0:actor\n参数1:目标的ID",
+    "接口功能详述": "检查目标是否是敌人",
+    "返回参数": "true | false",
+    "示例": "local isenemy = checkisenemy(actor,targetid)"
+  },
+  "checkisfriend": {
+    "模块": "战斗",
+    "参数说明": "参数0:玩家对象\n参数1:对方id\n参数2:是否包含自己,0否,1是",
+    "接口功能详述": "检查目标是否是友方",
+    "返回参数": "true | false",
+    "示例": "local isfriend = checkisfriend(actor,targetid,0)"
+  },
+  "getthreatlist": {
+    "模块": "战斗",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取玩家仇恨列表",
+    "返回参数": "table类型，仇恨对象结合，集合元素结构如下\ntarget:仇恨目标的ID\nhurt:对仇恨目标的总伤害\nthreat:仇恨值\nstartime:产生仇恨的时间",
+    "示例": "local data = getthreatlist(actor)"
+  },
+  "clearthreat": {
+    "模块": "战斗",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "清除玩家仇恨列表",
+    "返回参数": "无",
+    "示例": "clearthreat(actor)"
+  },
+  "getmailinfo": {
+    "模块": "邮件",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取玩家邮件列表数据",
+    "返回参数": "table类型，邮件集合，集合中元素格式\nmailid:邮件id\ncfgid:邮件配置id，\nstate:邮件状态，0未读，1已读，2已提取附件\ntitle:邮件标题，\nsender:发送者rid，\ncreatetime:创建时间，\ndesc:邮件正文 \nitems:邮件附件，道具集合，集合元素格式如下 \n-itemid:道具唯一id\n-cfgid:道具配置id\n-itemcount:道具数量",
+    "示例": "getmailinfo(actor)"
+  },
+  "sendconfigmailbyrid": {
+    "模块": "邮件",
+    "参数说明": "参数0:actor\n参数1:玩家对象id\n参数2:邮件配置id(cfg_mail表)\n参数3:道具信息(道具ID和数量的键值对)\n参数4:替换cfg_mail中content字段内容中的占位符(替换内容1#替换内容2)\n参数5:道具是否绑定（默认不绑定）",
+    "接口功能详述": "向指定玩家发送邮件，邮件的格式通过cfg_mail表配置",
+    "返回参数": "true | false",
+    "示例": "sendconfigmailbyrid(actor,target,cfgid,{10001=100,10002=200},替换内容1#替换内容2,bind)"
+  },
+  "sendmailbyrid": {
+    "模块": "邮件",
+    "参数说明": "参数0:actor\n参数1:接受邮件人rid\n参数2:邮件标题\n参数3:邮件描述\n参数4:邮件道具（道具ID和数量的键值对）\n参数5:背包内的索引(可选参数，当需要把自己背包内的道具发送给对方时，这个字段可以设置要发送的背包道具的索引)\n参数6:发件人rid(可选参数)\n参数7:邮件有效时长（单位小时）",
+    "接口功能详述": "向指定玩家发送自定邮件",
+    "返回参数": "table类型，发送出去的邮件信息，结构如下\nmailid:邮件id\ncfgid:邮件配置id，\nstate:邮件状态，0未读，1已读，2已提取附件\ntitle:邮件标题，\nsender:发送者rid，\ncreatetime:创建时间，\ndesc:邮件正文 \nitems:邮件附件，道具集合，集合元素格式如下 \n-itemid:道具唯一id\n-cfgid:道具配置id\n-itemcount:道具数量",
+    "示例": "sendmailbyrid(actor, targetrid，title, desc, {10001-100，10002=100},{10001,10002},senderId,time)"
+  },
+  "sendmailbycompleteitems": {
+    "模块": "邮件",
+    "参数说明": "参数0:actor\n参数1:接受邮件人rid\n参数2:邮件标题\n参数3:邮件描述\n参数4:邮件道具（需要内置完整的道具数据，如果键值对请使用sendmailbyrid）\n参数5:发件人rid(可选参数)\n参数6:邮件有效时长（单位小时）",
+    "接口功能详述": "向玩家发送带有内置完整道具数据的邮件",
+    "返回参数": "table类型，发送出去的邮件信息，结构如下\nmailid:邮件id\ncfgid:邮件配置id，\nstate:邮件状态，0未读，1已读，2已提取附件\ntitle:邮件标题，\nsender:发送者rid，\ncreatetime:创建时间，\ndesc:邮件正文 \nitems:邮件附件，道具集合，集合元素格式如下 \n-itemid:道具唯一id\n-cfgid:道具配置id\n-itemcount:道具数量",
+    "示例": "sendmailbycompleteitems(actor, targetrid, title, desc, items,senderid,time)"
+  },
+  "getemailitems": {
+    "模块": "邮件",
+    "参数说明": "参数0:actor\n参数1:邮件唯一id",
+    "接口功能详述": "领取邮件中的道具",
+    "返回参数": "true | false",
+    "示例": "getemailitems(actor, mailId)"
+  },
+  "changemailstate": {
+    "模块": "邮件",
+    "参数说明": "参数0:actor\n参数1:邮件改变状态，0未读，1已读，2已提取附件，3删除邮件\n参数2:邮件唯一ID",
+    "接口功能详述": "改变玩家邮件状态",
+    "返回参数": "无",
+    "示例": "changemailstate(actor,state, mailId)"
+  },
+  "getfriendinfo": {
+    "模块": "好友",
+    "参数说明": "参数0:actor\n参数1:好友rid",
+    "接口功能详述": "获取指定好友信息",
+    "返回参数": "table类型，键值对\nfriendid:好友rid，\nfriendtime:好友创建时间，\nlikevalue:好感度，\nfriendname:好友名字，\nfriendcareer:好友基础职业",
+    "示例": "local friendinfo = getfriendinfo(actor, fiendId)"
+  },
+  "getfriendlist": {
+    "模块": "好友",
+    "参数说明": "参数0:actor\n参数1:好友类型,1好友 ,2仇敌,3黑名单 ,4申请列表,5屏蔽",
+    "接口功能详述": "获得好友列表",
+    "返回参数": "table类型，好友集合，集合元素格式\nfriendid:好友rid\nfriendname:好友名字\nfriendcareer:好友基础职业\nlevel:等级\ntime:好友创建时间\nonline:是否在线\nunionname:战盟名字\nlikevalue:好感度\nkill_count:击杀次数(仇敌度)\nkill_log:击杀日志集合，集合元素格式\n-map_cfg_id:地图配置id\n-time:击杀时间",
+    "示例": "local friendlist = getfriendlist(actor, fiendType)"
+  },
+  "getrecommendfriend": {
+    "模块": "好友",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取系统推荐好友",
+    "返回参数": "table类型，系统推荐好友集合，集合元素格式\nfriendid:好友rid\nfriendname:好友名字\nfriendcareer:好友基础职业\nlevel:等级\nonline:是否在线\nunionname:战盟名字\nlikevalue:好感度",
+    "示例": "local friendlist = getrecommendfriend(actor, fiendType)"
+  },
+  "searcherfriend": {
+    "模块": "好友",
+    "参数说明": "参数0:actor\n参数1:好友名字关键字",
+    "接口功能详述": "搜索好友，按名字的关键字模糊匹配",
+    "返回参数": "table类型，好友集合，集合元素格式\nfriendid:好友rid\nfriendname:好友名字\nfriendcareer:好友基础职业\nlevel:等级\nonline:是否在线\nunionname:战盟名字\nlikevalue:好感度",
+    "示例": "local friendlist = searcherfriend(actor, name)"
+  },
+  "setfrienddegree": {
+    "模块": "好友",
+    "参数说明": "参数0:actor\n参数1:好友id\n参数2:增加多少好感度",
+    "接口功能详述": "设置好友好感度",
+    "返回参数": "好友好感度,table类型，键值对，结构\ntargetfriendid:好友id\nlikevalue:好友程度\ntargetfriendid:目标程度id",
+    "示例": "setfrienddegree(actor,fiendId,degree)"
+  },
+  "addfriend": {
+    "模块": "好友",
+    "参数说明": "参数0:actor\n参数1:对方rid\n参数2:好友类型,1好友,2仇敌,3黑名单,4申请列表,5屏蔽",
+    "接口功能详述": "添加好友",
+    "返回参数": "无",
+    "示例": "addfriend(actor, targetRid，type)"
+  },
+  "deletefriend": {
+    "模块": "好友",
+    "参数说明": "参数0:actor\n参数1:对方rid\n参数2:好友类型,1好友,2仇敌,3黑名单,4申请列表,5屏蔽",
+    "接口功能详述": "删除好友",
+    "返回参数": "无",
+    "示例": "deletefriend(actor, targetRid，type)"
+  },
+  "approveapplyfriend": {
+    "模块": "好友",
+    "参数说明": "参数0:actor\n参数1:是否同意,0不同意,1同意\n参数2:对方id",
+    "接口功能详述": "审批好友",
+    "返回参数": "true|false",
+    "示例": "approveapplyfriend(actor, agree，targetid)"
+  },
+  "addenemy": {
+    "模块": "好友",
+    "参数说明": "参数0:actor\n参数1:目标rid\n参数2:增加仇敌度",
+    "接口功能详述": "添加仇敌",
+    "返回参数": "无",
+    "示例": "addenemy(actor,killRid,enemyValue)"
+  },
+  "chat": {
+    "模块": "聊天",
+    "参数说明": "参数0:actor\n参数1:消息内容\n参数2:类型 ,0系统,2世界,7队伍,8私聊,9好友\n参数3:如果聊天有目标玩家，比如私聊，这个字段填写发送对象的ID\n参数4:发送的物品信息集合，集合元素字段\n-id:物品的唯一ID\n-cfgid:类型,1背包,装备",
+    "接口功能详述": "往聊天频道发送聊天",
+    "返回参数": "无",
+    "示例": "chat(actor,\"hellword\",0,0,\"[{id:10001,cfgid:1},{id:10002,cfgid:2}]\")"
+  },
+  "sendtochannel": {
+    "模块": "聊天",
+    "参数说明": "参数0:actor\n参数1:消息内容\n参数2:类型,0系统,2世界,5招募,7队伍,8私聊,9好友\n参数3:消息类型,0公共,1主界面组队招募",
+    "接口功能详述": "发送聊天消息去指定频道",
+    "返回参数": "无",
+    "示例": "sendtochannel(actor,0,0)"
+  },
+  "replacesensitiveword": {
+    "模块": "聊天",
+    "参数说明": "参数1:字符串",
+    "接口功能详述": "将字符串中敏感词替换成星号",
+    "返回参数": "替换后的字符串",
+    "示例": "local result = replacesensitiveword(actor,\"骂人的脏话\")"
+  },
+  "outversionchat": {
+    "模块": "聊天",
+    "参数说明": "参数0:actor\n参数1:聊天信息table<k,v>\n-channel:聊天频道\n-content：聊天消息\n-target:接收信息人(table限本服玩家id)\n-item:道具信息table可以是多个道具\n-useworldcd:是否使用世界聊天CD(1:是 0:否)\n-iscrossmap:是否为跨服聊天(1:是 0:否)\n-crossmapcondition:跨服聊天接收信息人条件限制",
+    "接口功能详述": "外置发送聊天消息走内置的通用包给客户端",
+    "返回参数": "无",
+    "示例": "local chatParam = {}\nchatParam[\"content\"] = content\nchatParam[\"item\"] = itemList\nchatParam[\"channel\"] = channel\nchatParam[\"target\"] = {}\nchatParam[\"useworldcd\"] = 1\nchatParam[\"iscrossmap\"] = 1\nchatParam[\"crossmapcondition\"] = \"checklevel>=\" .. needlevel\noutversionchat(actor, chatParam)"
+  },
+  "getvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字",
+    "接口功能详述": "可以读取任意类型的变量，虽然有这个接口，但是不建议使用，不同类型的变量，建议用专用的接口读取",
+    "返回参数": "变量值",
+    "示例": "result = getvar(actor,\"U1\")"
+  },
+  "getsysvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor(此参数可不传，但是建议传)\n参数1:变量名字",
+    "接口功能详述": "读取系统(全局)变量，数据会保存到数据库",
+    "返回参数": "变量值",
+    "示例": "result =  getsysvar(actor,\"G1\")"
+  },
+  "setsysvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor(此参数可不传，但是建议传)\n参数1:变量名字\n参数2:变量值",
+    "接口功能详述": "设置系统(全局)变量",
+    "返回参数": "无",
+    "示例": "setsysvar(actor,\"G1\",100)"
+  },
+  "getplaydef": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字",
+    "接口功能详述": "读取玩家(私人、个人)变量",
+    "返回参数": "变量值",
+    "示例": "result =  getplaydef(actor,\"U1\")"
+  },
+  "getplaydefasync": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字\n参数2:附加参数（任意类型）",
+    "接口功能详述": "异步获取玩家变量（获取别的服务器的玩家的变量）\n配合 getplaydefasyncres 事件一起使用",
+    "返回参数": "无",
+    "示例": "getplaydefasync(actor,\"T$变量名字\")"
+  },
+  "setplaydef": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字\n参数2:变量值",
+    "接口功能详述": "设置玩家(私人、个人)变量",
+    "返回参数": "无",
+    "示例": "setplaydef(actor,\"U1\",100)"
+  },
+  "getguilddef": {
+    "模块": "变量操作",
+    "参数说明": "参数0:guildActor\n参数1:变量名字",
+    "接口功能详述": "读取战盟(行会)变量",
+    "返回参数": "变量值",
+    "示例": "local guildactor = getmyguild(actor)\nresult =  getguilddef(guildactor ,\"U$\")"
+  },
+  "setguilddef": {
+    "模块": "变量操作",
+    "参数说明": "参数0:guildActor\n参数1:变量名字\n参数2:变量值",
+    "接口功能详述": "设置战盟(行会)变量",
+    "返回参数": "无",
+    "示例": "local guildactor = getmyguild(actor)\nsetguilddef(guildactor ,\"U$\",100)"
+  },
+  "inisysvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:类型(string、integer)\n参数2:变量名称",
+    "接口功能详述": "初始化自定义系统变量，建议使用getsysvar和setsysvar这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "inisysvar(actor,\"integer\",\"系统变量_1\")"
+  },
+  "getsysvarex": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字",
+    "接口功能详述": "获得自定义系统变量，建议使用getsysvar和setsysvar这一组接口替代该接口的功能",
+    "返回参数": "变量值",
+    "示例": "result = getsysvarex(actor,\"系统变量_1\")"
+  },
+  "setsysvarex": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字\n参数2:值\n参数3:是否保存(0和1)",
+    "接口功能详述": "设置自定义系统变量，建议使用getsysvar和setsysvar这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "setsysvarex(actor,\"系统变量_1\",712,1)"
+  },
+  "iniplayvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:类型(string、integer)\n参数2:变量名称",
+    "接口功能详述": "初始化自定义玩家变量，建议使用getplaydef和setplaydef这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "iniplayvar(actor,\"integer\",\"玩家变量_1\") "
+  },
+  "getplayvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字",
+    "接口功能详述": "获得自定义玩家变量，建议使用getplaydef和setplaydef这一组接口替代该接口的功能",
+    "返回参数": "变量值",
+    "示例": "result = getplayvar(actor,\"玩家变量_1\")"
+  },
+  "setplayvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字\n参数2:值\n参数3:是否保存(0和1)",
+    "接口功能详述": "设置自定义玩家变量，建议使用getplaydef和setplaydef这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "setplayvar(actor,\"玩家变量_1\",712,1)"
+  },
+  "iniguildvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:guildactor\n参数1:类型(string、integer)\n参数2:变量名称",
+    "接口功能详述": "初始化自定义战盟变量，建议使用getguilddef和setguilddef这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "iniguildvar(getmyguild(actor),\"integer\",\"战盟变量_1\") "
+  },
+  "setguildvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:guildactor\n参数1:变量名字\n参数2:变量值\n参数3:是否保存(0和1)",
+    "接口功能详述": "设置自定义战盟变量，建议使用getguilddef和setguilddef这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "setguildvar((getmyguild(actor),\"战盟变量_1\",712,1)"
+  },
+  "getguildvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:guildactor\n参数1:变量名字\n ",
+    "接口功能详述": "获得自定义战盟变量，建议使用getguilddef和setguilddef这一组接口替代该接口的功能",
+    "返回参数": "变量值",
+    "示例": "result = getguildvar(getmyguild(actor),\"战盟变量_1\")"
+  },
+  "clearhumcustvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字",
+    "接口功能详述": "清理个人自定义变量，建议使用getsysvar和setsysvar这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "clearhumcustvar(actor,\"玩家变量_1\")"
+  },
+  "clearglobalcustvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:actor\n参数1:变量名字",
+    "接口功能详述": "清理自定义系统变量，建议使用getplaydef和setplaydef这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "clearglobalcustvar(actor,\"系统变量_1\")"
+  },
+  "clearguildcustvar": {
+    "模块": "变量操作",
+    "参数说明": "参数0:guildactor\n参数1:变量名字",
+    "接口功能详述": "清理自定义行会变量，建议使用getguilddef和setguilddef这一组接口替代该接口的功能",
+    "返回参数": "true|false",
+    "示例": "clearguildcustvar(getmyguild(actor),\"行会变量_1\")"
+  },
+  "gettasklist": {
+    "模块": "任务",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获得主线任务列表",
+    "返回参数": "table类型，任务集合，集合元素格式如下\ntaskid:任务ID\nstate:任务状态,1已接受,2已完成,3已经提交（领取奖励）\ntaskgoal:任务目标集合，集合元素格式如下\n-goalid:目标ID\n-count:任务进度\n-maxcount:最大任务进度",
+    "示例": "data = gettasklist(actor)"
+  },
+  "submittask": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务id",
+    "接口功能详述": "提交主线任务",
+    "返回参数": "无",
+    "示例": "submittask(actor, 10001)"
+  },
+  "taskgoalflush": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务目标类型,任务目标类型请参考cfg_task_target表的taskGoalType字段说明\n参数2:目标参数(没有任务目标类型的参数有不一样的格式，具体请参考相关文档)",
+    "接口功能详述": "刷新主线任务目标",
+    "返回参数": "无",
+    "示例": "taskgoalflush(actor, 2, 10002, params)"
+  },
+  "accepttask": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务id",
+    "接口功能详述": "校验后领取主线任务，比如检查任务前置条件等",
+    "返回参数": "0失败，1成功",
+    "示例": "accepttask(actor, taskId)"
+  },
+  "onlyaccepttask": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务id",
+    "接口功能详述": "不做校验直接领取主线任务",
+    "返回参数": "0失败，1成功",
+    "示例": "onlyaccepttask(actor, taskId)"
+  },
+  "addtaskhistory": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务id",
+    "接口功能详述": "添加已经完成的主线任务记录",
+    "返回参数": "0失败，1成功",
+    "示例": "addtaskhistory(actor, taskId)"
+  },
+  "onlysubmittask": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务id",
+    "接口功能详述": "不做校验提交任务，不发放奖励，不删除主线任务",
+    "返回参数": "0失败，1成功",
+    "示例": "onlysubmittask(actor, taskId)"
+  },
+  "onlydeletetask": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务id",
+    "接口功能详述": "不做校验删除指定主线任务",
+    "返回参数": "0失败，1成功",
+    "示例": "onlydeletetask(actor, taskId)"
+  },
+  "onlyupdatetaskgoal": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务模块id（1：基础任务系统）\n参数2:任务id\n参数3:任务目标id\n参数4:cout 进度数量 （必须大于当前进度）",
+    "接口功能详述": "不做校验刷新主线任务目标ID进度",
+    "返回参数": "0失败，1成功",
+    "示例": "onlyupdatetaskgoal(actor, targetId)"
+  },
+  "flushtaskgoalcount": {
+    "模块": "任务",
+    "参数说明": "参数0:actor\n参数1:任务目标类型\n参数2:任务目标ID\n参数3:当前任务目标完成次数\n参数4-n:任务进度刷新必要参数(不同任务类型有不同参数)",
+    "接口功能详述": "刷新内置主线任务目标任务进度",
+    "返回参数": "刷新后的任务完成数量",
+    "示例": "local goal_count = flushtaskgoalcount(actor, 2, 10001, 1, 1001, 1)"
+  },
+  "getpreviewdata": {
+    "模块": "商业化",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取功能预告界面数据",
+    "返回参数": "table类型，功能预告集合，集合元素格式如下\nid:配置ID(cfg_preview表)\nisreceive:奖励是否已领取(true|false)",
+    "示例": "local data = getpreviewdata(actor)"
+  },
+  "getpreviewreward": {
+    "模块": "商业化",
+    "参数说明": "参数0:玩家对象\n参数1:配置id(cfg_preview表)",
+    "接口功能详述": "领取功能预告奖励",
+    "返回参数": "\ntable类型，字段如下\nid:功能预告配置ID\nresult:领取结果(true|false)\nitems:道具集合，集合元素字段如下\n -id:道具唯一ID\n -cfgid:道具配置ID,\n -count:道具数量",
+    "示例": "getpreviewreward(actor,cfgid)"
+  },
+  "getpreviewrewarddata": {
+    "模块": "商业化",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "获取预告奖励的领取记录",
+    "返回参数": "table类型,功能预告配置ID集合",
+    "示例": "local list = getpreviewrewarddata(rid)"
+  },
+  "randombyweight": {
+    "模块": "系统",
+    "参数说明": "参数1:权重集合（k:随机项，v:权重)\n参数2:随机个数（不填默认为1）\n参数3:随机结果是否可重复（不填默认不重复:false）",
+    "接口功能详述": "通过权重随机元素",
+    "返回参数": "随机到的元素集合",
+    "示例": "local weightMap = {}\nweightMap[\"元素1\"] = 1000\nweightMap[\"元素2\"] = 2000\nlocal itemRet =randombyweight(weightMap,1,true)"
+  },
+  "getallactivities": {
+    "模块": "活动",
+    "参数说明": "无",
+    "接口功能详述": "获取所有活动数据",
+    "返回参数": "活动数据列表，子列表同getactivityinfo",
+    "示例": "local allAct =getactivityinfo()"
+  },
+  "getactivityinfo": {
+    "模块": "活动",
+    "参数说明": "参数0:actor\n参数1:活动id(cfg_activity_rule表的ID)",
+    "接口功能详述": "获取指定活动数据，比如恶魔广场副本，血色城堡副本等",
+    "返回参数": "table类型,活动数据,字段如下\nactivityid:活动id\nopen:活动是否开启（true|false）\nclosetime:关闭时间戳(毫秒)\nopentime:开启时间戳(毫秒)\nnextopentime:下一次开启的时间戳(毫秒)",
+    "示例": "local act = getactivityinfo(actor,10001)"
+  },
+  "getleftcountofactivity": {
+    "模块": "活动",
+    "参数说明": "参数0:actor\n参数2:活动id",
+    "接口功能详述": "获取玩家活动的剩余次数，比如今日恶魔广场副本挑战还剩下几次",
+    "返回参数": "剩余次数",
+    "示例": "local leftCount = getleftcountofactivity(actor, activityId)"
+  },
+  "reduceactivitytimes": {
+    "模块": "活动",
+    "参数说明": "参数0:actor\n参数1:活动ID\n参数2:减去的次数（不填为1）",
+    "接口功能详述": "扣取玩家活动的剩余次数，比如扣除今天恶魔广场副本挑战的次数",
+    "返回参数": "无",
+    "示例": "reduceactivitytimes(actor, activityId)"
+  },
+  "addleftcountofactivity": {
+    "模块": "活动",
+    "参数说明": "参数0:actor\n参数1:活动表ID\n参数2:增加挑战数量",
+    "接口功能详述": "增加活动挑战次数，比如增加今天恶魔广场副本挑战的次数",
+    "返回参数": "无",
+    "示例": "AddLeftCountOfActivity(actor, activityID, 1)"
+  },
+  "getduplicatelist": {
+    "模块": "副本",
+    "参数说明": "参数1:副本类型(cfg_rep的type字段，也是cfg_activity_rule表的ID字段)",
+    "接口功能详述": "把所有副本地图的数据读取出来",
+    "返回参数": "table类型，副本集合，集合元素格式如下\nid:副本地图唯一ID\ndupcfgid:配置表id,cfg_rep表的ID\nactivityid:活动id\nplayers:玩家actor列表\nstate:当前阶段\nnextstatetime:下一阶段开始时间戳(毫秒)，\ntype:副本类型",
+    "示例": "local existDupList = getduplicatelist(type)"
+  },
+  "getduplicate": {
+    "模块": "副本",
+    "参数说明": "参数1:副本地图唯一id",
+    "接口功能详述": "读取单个副本地图的数据",
+    "返回参数": "table类型，字段如下\nid:副本地图唯一ID\ndupcfgid:配置表id,cfg_rep表的ID\nactivityid:活动id\nplayers:玩家actor列表\nstate:当前阶段\nnextstatetime:下一阶段开始时间戳(毫秒)，\ntype:副本类型\ncreatetime:副本创建时间",
+    "示例": "local dupInfo = getduplicate(mapId)"
+  },
+  "createduplicate": {
+    "模块": "副本",
+    "参数说明": "参数1:副本地图配置id\n参数2:副本类型(cfg_rep表的type)\n参数3:活动id(cfg_activity_rule表的id)\n参数4:副本配置表id(cfg_rep表的id)\n参数5:准备阶段时间\n参数6:战斗阶段时间\n参数7:结算阶段时间\n参数8:是否可以在副本内离线挂机",
+    "接口功能详述": "创建一个副本地图，比如恶魔广场、血色城堡等",
+    "返回参数": "副本地图唯一id",
+    "示例": "local dupConfigMap = ConfigDataManager.getById(\"cfg_rep\", configId)\nlocal mapCfgId = dupConfigMap.mapid\nlocal type = dupConfigMap.type\nlocal prepareTime = dupConfigMap.preparetime\nlocal continuous = dupConfigMap.continuous\nlocal save = dupConfigMap.save\nlocal mapId = createduplicate(actor, mapCfgId, type, type, configId, prepareTime, continuous, save, canHook)\n"
+  },
+  "enterduplicate": {
+    "模块": "副本",
+    "参数说明": "参数0:玩家对象\n参数1:副本地图唯一id\n参数2:传送点x\n参数3:传送点y\n参数4:共同进入的玩家对象列表，不填则为自己",
+    "接口功能详述": "进入副本地图",
+    "返回参数": "无",
+    "示例": "enterduplicate(actor, mapId, x, y)"
+  },
+  "setduplicatestate": {
+    "模块": "副本",
+    "参数说明": "参数1:副本地图唯一id\n参数2:状态（1-战斗，2-结算，3-关闭副本）",
+    "接口功能详述": "修改副本状态",
+    "返回参数": "无",
+    "示例": "setduplicatestate(mapId, SetDuplicateStateConst.TO_FIGHT)"
+  },
+  "setenvirvar": {
+    "模块": "地图",
+    "参数说明": "参数1:副本地图唯一id\n参数2:数据的key\n参数3:数据的value",
+    "接口功能详述": "脚本添加地图临时数据，数据和地图绑定，伴随地图的生命周期",
+    "返回参数": "无",
+    "示例": "setenvirvar(id, DuplicateVarConst.DEVIL_SQUARE_STATE, 1)"
+  },
+  "getenvirvar": {
+    "模块": "地图",
+    "参数说明": "参数1:副本地图唯一id\n参数2:数据的key",
+    "接口功能详述": "获取setenvirvar接口写入的地图临时数据",
+    "返回参数": "数据的value",
+    "示例": " local oldCount = getenvirvar(mapId, DuplicateVarConst.DEVIL_SQUARE_STATE_KILL_COUNT)"
+  },
+  "getallrolesummaryinfos": {
+    "模块": "角色",
+    "参数说明": "无：表示获取全部",
+    "接口功能详述": "获得服务器上所有玩家角色的简要信息",
+    "返回参数": "角色信息集合，集合元素字段如下\nactor: 玩家的luactor对象\n",
+    "示例": "local list = getallrolesummaryinfos()"
+  },
+  "getallonlineroleids": {
+    "模块": "角色",
+    "参数说明": "无",
+    "接口功能详述": "获取所有在线玩家ID",
+    "返回参数": "角色id列表(非actor列表)",
+    "示例": "local rid_list = getallonlineroleids()"
+  },
+  "getmonsterinfo": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor(怪物actor)\n",
+    "接口功能详述": "获取单个怪物信息",
+    "返回参数": "table类型,怪物信息,字段如下\ncfgid:怪物配置ID\nid:怪物在地图上的唯一ID\nhp:血\nmp:魔法值\nisdead:是否死亡\nname:怪物名字\nx:在地图上的X坐标\ny:在地图上的Y坐标\nnextrelivetime:死亡状态下下次复活时间，毫秒时间戳\nmaxhp:最大血量",
+    "示例": "local monsterInfo = getmonsterinfo(monsterActor)"
+  },
+  "notblockpoint": {
+    "模块": "地图",
+    "参数说明": "参数0:actor\n参数1:x坐标\n参数2:y坐标\n参数3:地图id（不填为actor所在地图）",
+    "接口功能详述": "判断地图上某个坐标是不是阻挡点（石头河流之类人和怪无法到达的坐标点）",
+    "返回参数": "true:非阻挡点\nfalse:阻挡点",
+    "示例": "isnotblock = notblockpoint(actor,x,y,mapid)"
+  },
+  "getallmount": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "读取已经拥有坐骑信息",
+    "返回参数": "table类型，坐骑集合，集合元素格式如下\nmountcfgid:坐骑配置id\nmountname:坐骑名字\nwear:是否是骑乘坐骑,0不是,1是\nauto:是否是默认坐骑,0不是,1是\nitematt:坐骑装备信息集合,集合元素格式如下\n-pos:装备孔位\n-itemcfgid:装备配置id\n-itemid:装备唯一id\n-grade:装备品阶\n-att:装备基础属性键值对",
+    "示例": "local mountinfo = getallmount(actor)"
+  },
+  "cancelridemount": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "取消骑乘坐骑",
+    "返回参数": "true|false",
+    "示例": "cancelridemount(actor)"
+  },
+  "putonmount": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor\n参数1:背包索引",
+    "接口功能详述": "将背包中的坐骑道具转移到坐骑列表，后续如果要骑乘坐骑则可以在坐骑列表中选择",
+    "返回参数": "true|false",
+    "示例": "putonmount(actor,idxOfBagItem )"
+  },
+  "takeoffmount": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor\n参数1:坐骑id\n参数2:是否删除坐骑,0不删除，1删除(不穿默认不删除)",
+    "接口功能详述": "将坐骑列表中的坐骑转移到背包",
+    "返回参数": "true|false",
+    "示例": "takeoffmount(actor,mountId,1)"
+  },
+  "ridemount": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor\n参数1:坐骑id ",
+    "接口功能详述": "骑乘坐骑",
+    "返回参数": "mountid ,当前骑乘坐骑id",
+    "示例": "mountid  = ridemount(actor,mountId)"
+  },
+  "mountputitem": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor\n参数1:坐骑id\n参数2:背包索引\n参数3:坐骑装备的孔位",
+    "接口功能详述": "给坐骑穿戴装备",
+    "返回参数": "true|false",
+    "示例": "mountputitem(actor,mountId,bagIdx,pos)"
+  },
+  "mountoffitem": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor\n参数1:坐骑id\n参数2:坐骑装备的孔位",
+    "接口功能详述": "给坐骑脱下装备",
+    "返回参数": "true|false",
+    "示例": "mountoffitem(actor,mountId,pos)"
+  },
+  "mountdetailinfo": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor\n参数1:坐骑id",
+    "接口功能详述": "获取单个坐骑信息",
+    "返回参数": "table类型，坐骑信息，字段如下\nmountcfgid:坐骑配置id\nmountname:坐骑名字\nwear:是否是骑乘坐骑,0不是,1是\nauto:是否是默认坐骑,0不是,1是\nitematt:坐骑装备信息集合,集合元素格式如下\n-pos:装备孔位\n-itemcfgid:装备配置id\n-itemid:装备唯一id\n-grade:装备品阶\n-att:装备基础属性键值对",
+    "示例": "mountdetailinfo(actor,mountId)"
+  },
+  "mountisshow": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor\n参数1:1显示，0隐藏",
+    "接口功能详述": "设置坐骑是否隐藏",
+    "返回参数": "true|false",
+    "示例": "mountisshow(actor)"
+  },
+  "bagtoshell": {
+    "模块": "交易行",
+    "参数说明": "参数0:actor\n参数1:商家的道具信息，table类型，键值对，字段如下\nitemcfgid:商品配置id\nbagindex:背包索引\ncount:商品数量",
+    "接口功能详述": "上架商品到交易行，把道具从背包放入交易行",
+    "返回参数": "table类型，字段如下\nreason:原因（0成功，1数量错误，2上架的是绑定道具，3也是数量错误）\nitemid:道具id\nitemname:道具名字\ngarde:道具品阶\nentrysize:道具卓越词条数量",
+    "示例": "bagtoshell(actor, msgData)"
+  },
+  "shelltobag": {
+    "模块": "交易行",
+    "参数说明": "参数1:商品归属人rid\n参数2:商品ID\n参数3:移除数量\n参数4:移出到人rid\n参数5:发送邮件id（写直接放入背包）\n参数6:邮件内容 （可有不写）",
+    "接口功能详述": "下架商品或者购买商品，把商品从交易行转移到背包",
+    "返回参数": "table类型，字段如下\nreason:原因（0成功，1商品数量小于等于0，2购买错误，3购买物品数量错误）\nitemid:道具id\nitemname:道具名字\ngarde:道具品阶\nentrysize:道具卓越词条数量\ncount:还剩下的道具的数量",
+    "示例": "shelltobag(actor, actor:toString(), itemId, count, actor:toString(), 0, \"\")"
+  },
+  "getshellgoods": {
+    "模块": "交易行",
+    "参数说明": "参数0:actor\n参数1:交易行物品ID，不填则返回整个交易行的数据",
+    "接口功能详述": "获取交易行的内置核心数据",
+    "返回参数": "交易行物品集合，每一项数据有以下字段\nowerid:出售者的ID\nitemid:物品唯一ID\nitemcfgid:物品配置ID\ncount:物品数量\n",
+    "示例": "local goods = getshellgoods(actor,1000001)"
+  },
+  "setblockpoint": {
+    "模块": "地图",
+    "参数说明": "参数1:x坐标\n参数2:y坐标\n参数3:true-设置为阻挡，false-取消阻挡\n参数4:地图唯一id",
+    "接口功能详述": "动态设置地图阻挡点，对应地图表storageMode需要是1",
+    "返回参数": "true|false",
+    "示例": " setblockpoint(x, y, true, mapId)"
+  },
+  "gethosts": {
+    "模块": "地图",
+    "参数说明": "无",
+    "接口功能详述": "获得当前场景服的server host，此接口跨服编程时用",
+    "返回参数": "LuaHost对象列表",
+    "示例": "local hosts = gethosts()"
+  },
+  "getallmap": {
+    "模块": "地图",
+    "参数说明": "无",
+    "接口功能详述": "获得当前所有地图唯一ID",
+    "返回参数": "地图唯一ID集合",
+    "示例": "local allmap = getallmap()"
+  },
+  "saveunionitem": {
+    "模块": "战盟",
+    "参数说明": "参数0:actor\n参数1:自定义来源id\n参数2:道具cfgid:数量  \n参数3:战盟id",
+    "接口功能详述": "将自定义来源道具存入战盟",
+    "返回参数": "道具集合，集合元素字段如下\ngrade:装备品阶\nentrysize:词条数量\nrank:道具品阶\nitemcfgid:道具配置ID\nid:道具唯一ID",
+    "示例": "saveunionitem(actor,14001, {1001=2,1002=3})"
+  },
+  "moveunionitem": {
+    "模块": "战盟",
+    "参数说明": "参数0:actor\n参数1:道具唯一id\n参数2:战盟id ,不传为本战盟\n参数3:目标对象rid  系统还是角色,默认系统表示删除\n参数4:邮件id,不传如果目标为角色就走背包\n参数5:邮件填充参数,#拼接字符串,参数4传递才有",
+    "接口功能详述": "将自定义战盟道具移动到指定目标或删除",
+    "返回参数": "true表示删除或发送给指定玩家成功\nfalse为失败",
+    "示例": "moveunionitem(actor, goodsId, unionId, actor:toString(), emailId, itemName)\nmoveunionitem(goodsId, unionId)\neg:\n    moveunionitem(actor, 1001, 1234, 1864634464, 66, \"刀#锋利的\")\n    moveunionitem(goodsId, 1234)"
+  },
+  "getunioninfo": {
+    "模块": "战盟",
+    "参数说明": "参数0:actor\n参数1:战盟唯一ID(不填默认获取自己战盟数据)",
+    "接口功能详述": "获取战盟数据",
+    "返回参数": "table类型，字段如下\ncreatetime --创建时间\nleaderid -- 盟主id\nunionid -- 战盟id\nleaderontime -- 盟主上位时间\nunionname -- 战盟名称\nunionlevel -- 战盟等级\ntotaldevote -- 战盟总贡献\nunionarmband -- 战盟臂章ID\nischangename -- 是否改名 0 未改名 1 已改名\nunionexp -- 战盟经验\nnum -- 当前人数\nmaxnum -- 最大人数\nenemyunionids table<number> 敌对战盟\nannouncement -- 战盟公告\nunioncapital -- 战盟资金\nunioncachet -- 战盟声望\nmemberinfos -- 战盟成员集合，集合元素字段如下\n  rid -- 角色id\n  name -- 角色名字\n  level -- 角色等级\n  career -- 职业\n  position -- 职位\n  devote -- 贡献值\n  isonline -- 是否在线 0 离线 1 在线\n  jointime -- 加入时间\n  curweekactivetimes -- 当前周活跃度\n  quitlinetime -- 下线时间",
+    "示例": ""
+  },
+  "checkunionname": {
+    "模块": "战盟",
+    "参数说明": "参数0:actor\n参数1:战盟名称",
+    "接口功能详述": "检查战盟名称是否重复、合法",
+    "返回参数": "true：合法 | false：不合法或重复",
+    "示例": "checkunionname(actor,\"测试战盟名称\")"
+  },
+  "changeunionname": {
+    "模块": "战盟",
+    "参数说明": "参数0:actor\n参数1:战盟名称",
+    "接口功能详述": "修改战盟名称",
+    "返回参数": "无",
+    "示例": "changeunionname(actor,\"测试战盟名称\")"
+  },
+  "systemcreateunion": {
+    "模块": "战盟",
+    "参数说明": "参数1:战盟名称\n参数2:战盟臂章\n参数3:战盟等级",
+    "接口功能详述": "系统创建空战盟",
+    "返回参数": "战盟唯一ID",
+    "示例": "local union_id = systemcreateunion(\"战盟名称\", 1, 1)"
+  },
+  "getguild": {
+    "模块": "战盟",
+    "参数说明": "参数1:战盟ID\n参数2:玩家ID(可不填)",
+    "接口功能详述": "获取战盟Lua对象",
+    "返回参数": "战盟lua对象(LuaGuild)",
+    "示例": "local guild_actor = getguild(union_id)"
+  },
+  "addthreat": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor（自身LuaActor）\n参数1:怪物对象(LuaActor) \n参数2:仇恨值\n参数3:0-仇恨随时间消失，1-仇恨不消失",
+    "接口功能详述": "添加仇恨",
+    "返回参数": "无",
+    "示例": " addthreat(actor,monster, statue, hate, 1)"
+  },
+  "startstall": {
+    "模块": "摊位",
+    "参数说明": "参数0:actor\n参数1:地图配置id\n参数2:摊位点X\n参数3:摊位点Y\n参数4:摆摊时间\n参数5:摆摊标题\n参数6:摆摊是否跨服（1：不跨服，2：跨服）",
+    "接口功能详述": "开始摆摊",
+    "返回参数": "无",
+    "示例": "startstall(actor,mapId,pointX,pointY,time,title,severType )"
+  },
+  "endstall": {
+    "模块": "摊位",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "结束摆摊",
+    "返回参数": "无",
+    "示例": "endstall(actor)"
+  },
+  "getmapstallinfo": {
+    "模块": "摊位",
+    "参数说明": "参数0:actor\n参数1:地图id\n参数2:摊位范围X最小点\n参数3:摊位范围X最大点\n参数4:摊位范围Y最小点\n参数5:摊位范围Y最大点\n参数6:摆摊是否跨服（1：不跨服，2：跨服）",
+    "接口功能详述": "获取地图中摆摊信息",
+    "返回参数": "无",
+    "示例": "getmapstallinfo(actor,maipId,minX,maxX,minY,maxY,severType)"
+  },
+  "callpartner": {
+    "模块": "宠物",
+    "参数说明": "参数0:actor\n参数1:宠物怪物配置ID(cfg_monster表的id)\n参数2:范围(宠物对象会随机生成在范围之内)",
+    "接口功能详述": "召唤一个宠物(伙伴)",
+    "返回参数": "宠物(伙伴)actor",
+    "示例": "local partnerActor = callpartner(actor,1001,1)"
+  },
+  "callpartnerasync": {
+    "模块": "宠物",
+    "参数说明": "参数0:actor\n参数1:宠物怪物配置ID(cfg_monster表的id)\n参数2:范围",
+    "接口功能详述": "异步召唤一个宠物(伙伴)",
+    "返回参数": "无",
+    "示例": "callpartnerasync(actor,1001,1)"
+  },
+  "removepartner": {
+    "模块": "宠物",
+    "参数说明": "参数0:actor(宠物的actor)",
+    "接口功能详述": "移除宠物(伙伴)",
+    "返回参数": "无",
+    "示例": "removepartner(partnerActor)"
+  },
+  "getpartners": {
+    "模块": "宠物",
+    "参数说明": "参数0:actor(玩家)",
+    "接口功能详述": "获取玩家宠物(伙伴)列表",
+    "返回参数": "宠物(伙伴)列表",
+    "示例": "getpartners(actor)"
+  },
+  "setmonsterwalktime": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor(怪物)\n参数1:行走心跳间隔，单位毫秒",
+    "接口功能详述": "设置怪物行走时心跳间隔",
+    "返回参数": "无",
+    "示例": "setmonsterwalktime(monsterActor,1000)"
+  },
+  "setmonsterattacktime": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor(怪物)\n参数1:攻击心跳间隔，单位毫秒",
+    "接口功能详述": "设置怪物攻击时心跳间隔",
+    "返回参数": "无",
+    "示例": "setmonsterattacktime(monsterActor,1000)"
+  },
+  "getenv": {
+    "模块": "系统",
+    "参数说明": "参数1：类型字符串\nusexpcall:lua报错打印堆栈\nmonitorluamemory:lua内存监控 \nmaintain:维护状态\ndebug:调式模式",
+    "接口功能详述": "获得引擎的基础配置",
+    "返回参数": "true|false",
+    "示例": "local isdebug = getenv(\"debug\")"
+  },
+  "useselfchoicebox": {
+    "模块": "道具",
+    "参数说明": "参数0:actor\n参数1:table类型,字段如下\nboxItemId:自选宝箱的道具ID\nitems:要兑换的道具集合，每一项代表一个自选宝箱兑换的道具信息，是道具id和道具数量的键值对",
+    "接口功能详述": "使用自选宝箱",
+    "返回参数": "true|false",
+    "示例": "useselfchoicebox(actor,{boxItemId=100,items={1001=100,1002=100}})"
+  },
+  "openactivity": {
+    "模块": "活动",
+    "参数说明": "参数1:活动id",
+    "接口功能详述": "开启活动",
+    "返回参数": "无",
+    "示例": "openactivity(16001)"
+  },
+  "closeactivity": {
+    "模块": "活动",
+    "参数说明": "参数1:活动id",
+    "接口功能详述": "关闭活动",
+    "返回参数": "无",
+    "示例": "closeactivity(16001)"
+  },
+  "getdupparticipants": {
+    "模块": "副本",
+    "参数说明": "参数1:地图唯一ID",
+    "接口功能详述": "获取所有进入过此副本的玩家actor集合",
+    "返回参数": "玩家actor集合",
+    "示例": "local allPlayers = getdupparticipants(mapId)"
+  },
+  "mapexists": {
+    "模块": "地图",
+    "参数说明": "参数1:地图唯一ID",
+    "接口功能详述": "判断地图是否存在",
+    "返回参数": "true|false",
+    "示例": "local exists = mapexists(actor)"
+  },
+  "logop": {
+    "模块": "系统",
+    "参数说明": "参数0:actor\n参数1:日志类型(在脚本中自定义)\n参数2:日志内容",
+    "接口功能详述": "如果在脚本中有记录日志的需求，可以使用这个接口，这个接口会把日志写入日志数据库，提供给后台查询统计",
+    "返回参数": "无",
+    "示例": "logop(actor,1,\"这是一条日志\")"
+  },
+  "addcdbyskill": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:技能ID\n参数2:CD结束时间（毫秒时间戳）\n参数3:是否发送ResCDChangedMessage这个消息给客户端（默认发）",
+    "接口功能详述": "给技能加CD",
+    "返回参数": "true|false",
+    "示例": "addcdbyskill(actor, skillId, endTime, 1)"
+  },
+  "savefightvalue": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1:战斗力",
+    "接口功能详述": "保存战斗力(这个值是给盒子后台那边的，在游戏中无实际作用)",
+    "返回参数": "无",
+    "示例": "savefightvalue(actor, fightValue)"
+  },
+  "getpetskills": {
+    "模块": "宠物",
+    "参数说明": "参数0:宠物actor",
+    "接口功能详述": "获取宠物(伙伴)、召唤兽的技能列表",
+    "返回参数": "table类型，技能集合，集合元素字段如下\nid:技能ID\nlevel:技能等级\ntype:技能类型\npriority:技能自动释放优先级",
+    "示例": "local skillList = getpetskills(petActor)"
+  },
+  "getpets": {
+    "模块": "召唤兽",
+    "参数说明": "参数0:actor(玩家)",
+    "接口功能详述": "获取弓箭手职业玩家召唤出来的召唤兽actor列表，注意这个召唤兽不是宠物(伙伴)，仅仅就是弓箭手召唤出来的召唤兽",
+    "返回参数": "table类型，召唤兽actor的集合",
+    "示例": "local pets = getpets(actor);"
+  },
+  "removepet": {
+    "模块": "召唤兽",
+    "参数说明": "参数0:actor(玩家)",
+    "接口功能详述": "移除一个召唤兽，非宠物(伙伴)，该接口只对弓箭手职业的玩家有效",
+    "返回参数": "true|false",
+    "示例": "removepet(petactor)"
+  },
+  "callonactor": {
+    "模块": "通用",
+    "参数说明": "参数0:actor\n参数1:lua函数名称\n参数2-N:传递给lua函数的参数",
+    "接口功能详述": "在指定玩家身上调用一个lua函数",
+    "返回参数": "无",
+    "示例": " function xxxxevent(actor)\n    local targetActor = getactor(id,mapid)\n    callonactor(targetActor,\"test\",1,2,3)\nend\n \nfunction test(targetActor,a,b,c)\n    local data = getplaydef(targetActor, \"T$A\")\n    data = a * b * c\n    setplaydef(actor, \"T$A\", data)\nend"
+  },
+  "callonserial": {
+    "模块": "通用",
+    "参数说明": "参数1:lua函数名称\n参数2-N:传递给lua函数的参数",
+    "接口功能详述": "在单线程上调用一个lua函数",
+    "返回参数": "无",
+    "示例": "function xxxxevent(actor)\n    callonserial(actor,\"test\",1,2,3)\nend\n \nfunction test(actor,a,b,c)\n    local data = getsysvar(actor, \"R$A\")\n    data = a * b * c\n    setsysvar(actor,\"R$A\", data)\nend"
+  },
+  "getplayskilllist": {
+    "模块": "玩家",
+    "参数说明": "参数0:actor\n参数1: 技能类型，不填默认所有技能",
+    "接口功能详述": "获取玩家身上的所有技能信息，默认按优先级排序",
+    "返回参数": "{{},{}....}结构，子{}数据如下：\n\"id\" = 技能id\n“level” =技能等级\n“type” = 技能类型\n“priority” = 技能优先级",
+    "示例": ""
+  },
+  "year": {
+    "模块": "时间日期",
+    "参数说明": "无",
+    "接口功能详述": "获得当前年份，可获GM指令修改过的时间",
+    "返回参数": "数值",
+    "示例": "local y = year()"
+  },
+  "month": {
+    "模块": "时间日期",
+    "参数说明": "无",
+    "接口功能详述": "获得当前月份，可获GM指令修改过的时间",
+    "返回参数": "数值",
+    "示例": "local m = month()"
+  },
+  "day": {
+    "模块": "时间日期",
+    "参数说明": "无",
+    "接口功能详述": "获得当前是某月中的哪一天，可获GM指令修改过的时间",
+    "返回参数": "数值",
+    "示例": "local d= day()"
+  },
+  "hour": {
+    "模块": "时间日期",
+    "参数说明": "无",
+    "接口功能详述": "获取当前小时，可获GM指令修改过的时间",
+    "返回参数": "数值",
+    "示例": "local h = hour()"
+  },
+  "minute": {
+    "模块": "时间日期",
+    "参数说明": "无",
+    "接口功能详述": "获得当前分钟，可获GM指令修改过的时间",
+    "返回参数": "数值",
+    "示例": "local mm = minute()"
+  },
+  "second": {
+    "模块": "时间日期",
+    "参数说明": "无",
+    "接口功能详述": "获得当前秒，可获GM指令修改过的时间",
+    "返回参数": "数值",
+    "示例": "local s = second()"
+  },
+  "setridemountid": {
+    "模块": "坐骑",
+    "参数说明": "参数0:actor\n参数1:坐骑ID",
+    "接口功能详述": "设置坐骑是否隐藏",
+    "返回参数": "坐骑ID",
+    "示例": "local mid = setridemountid(actor, mid)"
+  },
+  "setskillavailableext": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:技能ID\n参数2:是否能释放(true|false)",
+    "接口功能详述": "设置技能是否能释放",
+    "返回参数": "无",
+    "示例": "--禁止释放该技能\nsetskillavailableext(actor,1004000,false)"
+  },
+  "itemcompound": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:要合成的物品配置ID\n参数2:要合成的物品数量\n参数3:合成消耗的物品背包索引",
+    "接口功能详述": "物品合成",
+    "返回参数": "合成的物品的唯一ID",
+    "示例": "local itemId = itemcompound(actor,itemId,itemCount,removeIndex)"
+  },
+  "setlimitskills": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:功能类型（自定义） string\n参数2:操作类型 （1-添加，2-移除）number\n参数3:是否直接覆盖 boolean\n参数4:技能id集合 table",
+    "接口功能详述": "设置限制技能，设置后只能释放这些技能",
+    "返回参数": "无",
+    "示例": " setlimitskills(actor, LimitSkillType.TRANSFER_CARD, 2, cover, skillList)"
+  },
+  "quitduplicate": {
+    "模块": "副本",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "退出副本",
+    "返回参数": "无",
+    "示例": "quitduplicate(actor)"
+  },
+  "createitemsbymap": {
+    "模块": "装备和物品",
+    "参数说明": "参数0:actor\n参数1:道具和道具数量的键值对",
+    "接口功能详述": "创建完整的道具物品，此接口用于通过物品配值ID初始化出完整的物品信息",
+    "返回参数": "道具数据列表",
+    "示例": "local goodsInfo = createitemsbymap({ [cfgid] = count })"
+  },
+  "clearallskillcd": {
+    "模块": "技能",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "清除玩家所有技能的cd",
+    "返回参数": "无",
+    "示例": "clearallskillcd(actor)"
+  },
+  "shellclean": {
+    "模块": "交易行",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "清理交易行数据",
+    "返回参数": "无",
+    "示例": "shellclean(actor)"
+  },
+  "setitemappeardata": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:槽位和配置ID的键值对集合",
+    "接口功能详述": "设置玩家装备外观数据，设置的数据也可以通过这种方式读取， local data = getrolefield(actor, \"role.roleappear.appear\")",
+    "返回参数": "无",
+    "示例": "    local equipappear = msgData[\"equipindex\"]\n    local data = {}\n    for _, value in pairs(equipappear) do\n        local pos = tonumber(value[\"slot\"])\n        local cfgId = tonumber(value[\"cfgId\"])\n        if pos ~= nil then\n            data[pos] = cfgId\n        end\n    end\n    setitemappeardata(actor, data)"
+  },
+  "isskillavailable": {
+    "模块": "技能",
+    "参数说明": "参数0:actor\n参数1:技能配置ID\n参数2:技能等级\n参数3:技术作用目标的ID",
+    "接口功能详述": "检查技能是否可以释放",
+    "返回参数": "true|false",
+    "示例": "if isskillavailable(actor, skillId, skillLevel, targetId) then\n    skill(actor, skillId, skillLevel, targetId)\nend"
+  },
+  "setmapobjectdir": {
+    "模块": "地图",
+    "参数说明": "参数0:actor\n参数1:朝向，可以设置这些值\n(top:0,\nright_top1:1,\nright:2,\nright_bottom:3,\nbottom:4,\nleft_bottom:5,\nleft:6,\nleft_top:7)",
+    "接口功能详述": "\n设置地图对象（人物、怪物、召唤兽、宠物）的朝向",
+    "返回参数": "无",
+    "示例": "setmapobjectdir(actor,2)--设置对象朝右"
+  },
+  "setofflinepatrolstate": {
+    "模块": "离线挂机",
+    "参数说明": "参数0:actor\n参数1: 状态，1巡逻状态开启，2战斗状态开启，0无状态",
+    "接口功能详述": "设置离线挂机巡逻状态",
+    "返回参数": "无",
+    "示例": " setofflinepatrolstate(actor, 2)"
+  },
+  "setshaperingdata": {
+    "模块": "人物",
+    "参数说明": "参数0:actor\n参数1:变身的怪物的配置ID",
+    "接口功能详述": "设置变身戒指数据",
+    "返回参数": "无",
+    "示例": "    setshaperingdata(actor, monsterId)"
+  },
+  "setsleeptime": {
+    "模块": "怪物",
+    "参数说明": "参数0:actor\n参数1:休眠时间，单位毫秒",
+    "接口功能详述": "设置怪物休眠时间。注意：如果设置的时间过大，怪物会一直发呆",
+    "返回参数": "无",
+    "示例": ""
+  },
+  "dropequip": {
+    "模块": "掉落",
+    "参数说明": "参数0：actor \n参数1：装备唯一id\n参数2：归属者id\n参数3：归属保护时间，毫秒值",
+    "接口功能详述": "穿戴装备或者背包装备掉落在地上，消失时间读item表的dropTime",
+    "返回参数": "无",
+    "示例": "dropequip(actor, itemId, killerId, dropTime)"
+  },
+  "useitembatch": {
+    "模块": "道具",
+    "参数说明": "参数0：actor\n参数1：参数类型（1-背包index，2-道具cfgid）\n参数2：道具集合，参数类型为1的话key就是背包index，为2的话就是道具配置id。{{？=count},....}",
+    "接口功能详述": "批量使用道具",
+    "返回参数": "无",
+    "示例": ""
+  },
+  "addrolekmlattributes": {
+    "模块": "角色",
+    "参数说明": "参数0：actor\n参数1：属性分组名字，字符串\n参数2：属性列表 table类型，{属性id-属性值，...}",
+    "接口功能详述": "增加玩家脚本中记录的属性，落库持久化",
+    "返回参数": "",
+    "示例": ""
+  },
+  "replaceequip": {
+    "模块": "物品和装备",
+    "参数说明": "参数0：actor\n参数1：替换列表 table类型，{装备位置索引-装备配置id，...}",
+    "接口功能详述": "将装备替换为对应职业的装备并脱掉全身装备",
+    "返回参数": "无",
+    "示例": "replaceequip(actor, {\n    65535=21310031,\n    65536=21310032,\n})"
+  },
+  "ResetRoleCount": {
+    "模块": "角色",
+    "参数说明": "参数0：actor\n参数1：重置类型 --- 2001-购买道具次数-每日,  2002-购买道具次数-每星期\n           2003-购买道具次数-每月, 2004-购买道具次数-永久\n           3001-日常活动剩余次数-自定义刷新\n           1001-道具使用次数, 1002-伙伴-派遣, 1003-伙伴-派遣-VIP已使用免费次数\n           1004-使用道具-整个周期, 1005-个人怪物首杀, 1006- 装备喂养的次数\n           42-玩家首次购买钻石\n参数2：重置键\n参数3：重置次数, 传负数表示重置所有次数\n参数4：重置时间, 不传不更新时间",
+    "接口功能详述": "指定重置类型, 重置键,重置次数用以重置计数器",
+    "返回参数": "失败-null, 成功-重置次数",
+    "示例": "resetrolecount(actor, 2004, 1033018, -1)"
+  },
+  "getcompletedtasklist": {
+    "模块": "任务",
+    "参数说明": "参数0：actor",
+    "接口功能详述": "获得已完成的任务列表",
+    "返回参数": "table类型，任务集合，集合元素格式如下\ntaskid:任务ID\ncompletednumbers:完成次数\nlastaccepttime:最后领取的时间\nlastcompletedtime:最后完成任务时间[毫秒]",
+    "示例": "local completedTaskList = getcompletedtasklist(actor)"
+  },
+  "replacetask": {
+    "模块": "任务",
+    "参数说明": "参数0：actor\n参数1：替换列表 table类型，{旧任务id-新任务id，...}",
+    "接口功能详述": "替换任务信息",
+    "返回参数": "无",
+    "示例": "replacetask(actor, {10001=20001,10002=20002,...})"
+  },
+  "setequipdurability": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:装备索引或者唯一ID\n参数2:类型标识符，值为0时参数1为装备索引；值为1时参数1为唯一 ID。\n参数3:耐久度，值必须大于0，但没有上限，正常情况下是100\n",
+    "接口功能详述": "设置装备耐久度，装备的内置属性值有耐久度控制，如耐久度为50，则装备的内置属性只有正常的一半，以此类推。如果设置耐久度为0，那么装备的属性失效，并且套装效果消失",
+    "返回参数": " true|false",
+    "示例": "local equipList = getallequipinfo(actor)\nfor _, v in pairs(equipList) do\n    local equipIndex = v.equipindex\n    local cfgId = v.cfgid\n    if cfgId == 20911231 then\n        --设置耐久度为80\n        setequipdurability(actor,equipIndex,0, 80)\n    end\nend"
+  },
+  "getequipdurability": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:装备索引或者唯一ID\n参数2:类型标识符，值为0时参数1为装备索引；值为1时参数1为唯一 ID",
+    "接口功能详述": "获取装备耐久度，装备的内置属性值有耐久度控制，如耐久度为50，则装备的内置属性只有正常的一半，以此类推。如果设置耐久度为0，那么装备的属性失效，并且套装效果消失",
+    "返回参数": "耐久度值",
+    "示例": "local equipList = getallequipinfo(actor)\nfor _, v in pairs(equipList) do\n    local equipIndex = v.equipindex\n    local cfgId = v.cfgid\n    if cfgId == 20911231 then\n        setequipdurability(actor,equipIndex,0, 80)\n        --从接口获取\n        local durability = getequipdurability(actor, equipIndex, 0)\n        --也可以从装备信息中获取\n        local durabilityFromEquipInfo = getequipinfo(actor, equipIndex, 0).durability\n        jprint(\"当前装备耐久度\", durability, durabilityFromEquipInfo)\n    end\nend"
+  },
+  "setequipbasicattr": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor\n参数1:装备索引或者唯一ID\n参数2:类型标识符，值为0时参数1为装备索引；值为1时参数1为唯一 ID。\n参数3:属性表",
+    "接口功能详述": "修改装备基础属性",
+    "返回参数": "true|false",
+    "示例": ""
+  },
+  "setequipscheme": {
+    "模块": "物品和装备",
+    "参数说明": "参数0:actor参数1:方案值",
+    "接口功能详述": "设置装备方案，只计算选中的方案装备生效",
+    "返回参数": "true|false",
+    "示例": "setequipscheme(actor, scheme)"
+  },
+  "getequipscheme": {
+    "模块": "物品和装备",
+    "参数说明": "参数0：actor",
+    "接口功能详述": "获取装备方案",
+    "返回参数": "方案值",
+    "示例": "setequipscheme(actor, equipScheme)"
+  },
+  "addmonsterskill": {
+    "模块": "怪物",
+    "参数说明": "参数0:怪物的actor\n参数1:技能信息，table类型，格式如下\n{\n        id= 1000001, --技能ID\n        level= 1, --技能等级\n        priority= 1, --优先级，可不填默认0\n        minhppercent= 1, --怪物释放技能最小血量，可不填，默认1\n        maxhppercent= 100,--怪物释放技能最大血量，可不填，默认100\n}\n",
+    "接口功能详述": "给怪物（宠物、伙伴、召唤兽）添加技能",
+    "返回参数": "true|false",
+    "示例": "addmonsterskill(monsterActor,{\n\n        id= 1000001, --技能ID\n\n        level= 1, --技能等级\n\n        priority= 1, --优先级，可不填默认0\n\n        minhppercent= 1, --怪物释放技能最小血量，可不填，默认1\n\n        maxhppercent= 100,--怪物释放技能最大血量，可不填，默认100\n\n    })"
+  },
+  "removemonsterskill": {
+    "模块": "怪物",
+    "参数说明": "参数0:怪物actor\n参数1:技能ID",
+    "接口功能详述": "移除怪物（宠物、伙伴、召唤兽）",
+    "返回参数": "true|false",
+    "示例": "removemonsterskill(monsterActor,1000001)"
+  },
+  "setpatrolmonsters": {
+    "模块": "离线挂机",
+    "参数说明": "参数0：actor\n参数1：怪物配置id列表 table类型",
+    "接口功能详述": "设置巡逻挂机中巡逻的怪物",
+    "返回参数": "true|false",
+    "示例": "setpatrolmonsters(actor, {1=100001,2=100002,...})"
+  },
+  "createnpc": {
+    "模块": "NPC",
+    "参数说明": "参数0:actor\n参数1:npc的名字\n参数2:NPC所在的地图配置ID，非地图唯一ID\n参数3:在地图上的X坐标\n参数4:在地图上的Y坐标\n参数5:皮肤，如果没有则填0\n参数6:npc脚本，如果没有则填nil\n参数7:NPC配置表ID\n参数8:NPC的朝向\n参数9:是否只在当前线路的地图创建，0否（默认），1是，如果是，则参数2地图ID可以填地图唯一ID",
+    "接口功能详述": "在地图上创建NPC，如果NPC所在的地图有多个分线，则会在每个分线上都创建一个",
+    "返回参数": "table类型，npc列表（因为多个线路会创建多个）",
+    "示例": "--@lua create_npc\nlocal x = getbaseinfo(actor, \"x\")\nlocal y = getbaseinfo(actor, \"y\")\nlocal mapCfgId = getbaseinfo(actor, \"mapid\")\nlocal npcList =  createnpc(actor,\"马斯克\",mapCfgId,x,y,0,nil,100101,2,0)\n--保存起来\nlocal npcInfo = getsysvar(actor, \"G$npc_info\") or {}\ntable.AddRanage(npcInfo, npcList)\nsetsysvar(actor, \"G$npc_info\", npcInfo)"
+  },
+  "delnpc": {
+    "模块": "NPC",
+    "参数说明": "参数0:npcActor\n或者\n参数0:actor\n参数1:npc的名字\n参数2:地图配置ID，非地图唯一ID，如果填0则删除所有地图上的改NPC",
+    "接口功能详述": "删除地图上的NPC",
+    "返回参数": "true|false",
+    "示例": "--删除当前地图所有NPC\nlocal mapCfgId = getbaseinfo(actor, \"mapid\")\ndelnpc(\"马斯克\", mapCfgId)\n====或者=====\n--按单个NPC删除\nlocal npcInfo = getsysvar(actor, \"G$npc_info\") or {}\njprint(\"所有npc\", npcInfo)\nfor _, npcActor in pairs(npcInfo) do\n    jprint(\"删除npc\",npcActor)\n    delnpc(npcActor)\nend"
+  },
+  "setroleextdata": {
+    "模块": "角色",
+    "参数说明": "参数0:actor\n参数1:任意类型的数据",
+    "接口功能详述": "设置角色lua扩展数据，数据会在 RoleInfoExt 内置协议的 luaExtData 同步给前端，格式为json",
+    "返回参数": "true|false",
+    "示例": "setroleextdata(actor, {a=1, b = 2,c = 3})"
+  },
+  "getroleextdata": {
+    "模块": "角色",
+    "参数说明": "参数0:actor",
+    "接口功能详述": "读取角色lua扩展数据",
+    "返回参数": "通过setroleextdata设置的数据",
+    "示例": "local result = getroleextdata(actor)\njprint(\"getroleextdata\",result)"
+  },
+  "setmonsterextdata": {
+    "模块": "怪物",
+    "参数说明": "参数0:monsterActor\n参数2:data",
+    "接口功能详述": "设置怪物lua扩展数据",
+    "返回参数": "无",
+    "示例": "setmonsterextdata(actor, {1,2,3,4})"
+  },
+  "getmonsterextdata": {
+    "模块": "怪物",
+    "参数说明": "参数:monsterActor",
+    "接口功能详述": "读取怪物lua扩展数据",
+    "返回参数": "setmonsterextdata设置的数据",
+    "示例": "setmonsterextdata(actor, {1,2,3,4})\nlocal data = getmonsterextdata(actor)\njprint(\"getmonsterextdata\",data)"
+  },
+  "getcombinesid": {
+    "模块": "系统",
+    "参数说明": "无",
+    "接口功能详述": "获得合服后的所有服务器ID集合",
+    "返回参数": "合服后相关服务器ID集合。比如，1、2、3、4合并成一个服，那么该接口获得这4个服ID的集合",
+    "示例": "local combinesids = getcombinesid()"
+  },
+  "getplayeroutfightmodelvalue": {
+    "模块": "玩家",
+    "参数说明": "参数0：actor",
+    "接口功能详述": "获取玩家外置攻击模式值",
+    "返回参数": "1: 外置攻击模式标识,number;\n2: 外置攻击模式中 友军列表,table;",
+    "示例": "local ret = getplayeroutfightmodelvalue(targetPlayer)"
+  },
+  "setblockpointlist": {
+    "模块": "地图",
+    "参数说明": "参数0: actor ，如果不传则必须传参数3\n参数1：点位集合，示例{{x=1,y=1},{x=1,y=2},....}\n参数2：boolean,true为阻挡，false为非阻挡\n参数3：地图唯一id",
+    "接口功能详述": "批量设置地图阻挡点，相比setblockpoint性能更好",
+    "返回参数": "无",
+    "示例": "setblockpointlist(allPoints, block, mapId)"
+  },
+  "isplayeronline": {
+    "模块": "玩家",
+    "参数说明": "参数1：玩家唯一id",
+    "接口功能详述": "判断玩家在不在线",
+    "返回参数": "boolean类型，true为在线",
+    "示例": "local online = isplayeronline(actor)"
+  },
+  "getplayerdiecount": {
+    "模块": "玩家",
+    "参数说明": "参数0：actor",
+    "接口功能详述": "获取玩家死亡次数，切换地图与复活类型后次数重置",
+    "返回参数": "死亡次数，number",
+    "示例": "local dieCount = getplayerdiecount(actor)"
+  },
+  "pickupitembycfgids": {
+    "模块": "掉落",
+    "参数说明": "参数0：actor\n参数1：道具列表 {1=10001,2=100002,3=100003,......}\n参数2：范围，可选参数，不填默认读表中自动回收的范围",
+    "接口功能详述": "根据道具类型自动拾取附近的道具",
+    "返回参数": "无",
+    "示例": "local itemIds = {}\ntable.insert(itemIds, 10001)\ntable.insert(itemIds, 10002)\npickupitembycfgids(actor, itemIds, 3)"
+  },
+  "setshield": {
+    "模块": "玩家",
+    "参数说明": "参数0：actor\n参数1：护盾值\n参数2：改变的原因。内置1是自动回复，2是受到伤害，3是特殊属性回复",
+    "接口功能详述": "设置玩家SD护盾",
+    "返回参数": "无",
+    "示例": " setshield(actor,100,5)"
+  },
+  "setitemtimeout": {
+    "模块": "装备和道具",
+    "参数说明": "参数0:actor\n参数1:物品的唯一ID\n参数2:过期时间毫秒时间戳，",
+    "接口功能详述": "设置道具过期时间",
+    "返回参数": "无",
+    "示例": "setitemtimeout(actor,10000001,1755689518100)"
+  },
+  "monstersetting": {
+    "模块": "怪物",
+    "参数说明": "参数0:monsterActor\n参数1:参数信息",
+    "接口功能详述": "设置怪物参数，包括设置忽略攻击目标、攻击目标、释放技能是否转向等等",
+    "返回参数": "无",
+    "示例": "monstersetting(v, {\n    fixdir=true, --释放技能固定方向，不转向\n    ignoreattack={\n        type=2, --类型，1=忽略所有人，2=忽略攻击指定玩家的ID，其他的后续再加\n        players={tonumber(actor:toString())}\n    },\n    attacks={\n        {\n            --1=敌人，2=友方（不包含自己）,3=友方（包含自己）,4=自己，5=玩家，6=红名，7=归属(针对宠物和伙伴的主人)\n            --8=指定配置ID的怪物,-9指定唯一ID的怪物\n            type=1,\n        },\n        {\n            --1=敌人，2=友方（不包含自己）,3=友方（包含自己）,4=自己，5=玩家，6=红名，7=归属(针对宠物和伙伴的主人)\n            --8=指定配置ID的怪物,-9指定唯一ID的怪物\n            type=8,\n            monsterconfigid={47001}, --可以设置怪物配置ID\n        },\n        {\n            --1=敌人，2=友方（不包含自己）,3=友方（包含自己）,4=自己，5=玩家，6=红名，7=归属(针对宠物和伙伴的主人)\n            --8=指定配置ID的怪物,-9指定唯一ID的怪物\n            type=9,\n            monsterid={} -- 可以设置怪物唯一ID\n        }\n    }\n})"
+  },
+  "gset": {
+    "模块": "全局数据接口",
+    "参数说明": "参数0:actor\n参数1:分类的名字，可以自定义，字符串类型\n参数2:dataid，可以任意类型的数值类型，比如玩家的ID\n参数3:要存储的数值，任意类型",
+    "接口功能详述": "用于写入全局数据",
+    "返回参数": "无",
+    "示例": "    gset(actor, \"巅峰战场战绩\", 10001, {111,222,true})\n    gset(actor,\"巅峰战场战绩\",10002,\"abc\")\n    gset(actor, \"巅峰战场战绩\",10003,123)\n    gset(actor,\"巅峰战场战绩\",10004,{key=1,key1=2})\n    gset(actor,\"巅峰战场战绩\",10005,true)\n    gset(actor,\"巅峰战场战绩\",10006,\"true\")"
+  },
+  "gget": {
+    "模块": "全局数据接口",
+    "参数说明": "参数0:actor\n参数1:分类的名字，可以自定义，字符串类型\n参数2:dataid，可以任意类型的数值类型，比如玩家的ID。可不填",
+    "接口功能详述": "读取全局数据",
+    "返回参数": "结果",
+    "示例": "local data = gget(actor,\"巅峰战场战绩\")  --读取该key所有数据\nlocal data = gget(actor, \"巅峰战场战绩\",10001)\nlocal data = gget(actor, \"巅峰战场战绩\",10002)\nlocal data = gget(actor, \"巅峰战场战绩\",10003)"
+  },
+  "gdel": {
+    "模块": "全局数据接口",
+    "参数说明": "参数0:actor\n参数1:分类的名字，可以自定义，字符串类型\n参数2:dataid，可以任意类型的数值类型，比如玩家的ID。可不填",
+    "接口功能详述": "删除全局数据",
+    "返回参数": "无",
+    "示例": "gdel(actor, \"巅峰战场战绩\") --删除该key所有数据\ngdel(actor, \"巅峰战场战绩\",10001)\ngdel(actor, \"巅峰战场战绩\",10002)\ngdel(actor, \"巅峰战场战绩\",10003)"
+  },
+  "gquery": {
+    "模块": "全局数据接口",
+    "参数说明": "参数0:actor\n参数1:sql",
+    "接口功能详述": "使用sql语句查询数据",
+    "返回参数": "查询结果",
+    "示例": "local result = gquery(actor, \"select * from rank_list where a > 1 and a < 6 order by a desc limit 10\")"
+  },
+  "sendglobalmsg": {
+    "模块": "系统",
+    "参数说明": "参数0:actor,\n参数1:发送的数据\n参数2:目标玩家的ID",
+    "接口功能详述": "发送全局消息，比如1服给10服的玩家发送lua消息。接收端通过监听 servermsg 事件接收发送的消息",
+    "返回参数": "无",
+    "示例": " local sendData = {\n        data={11111,22222,3333}\n    }\n    sendglobalmsg(actor,sendData,{targetid1,targetid2})"
+  },
+  "createreplica": {
+    "模块": "地图",
+    "参数说明": "参数0:actor\n参数1:机器人配置",
+    "接口功能详述": "注意事项\n1、机器人仍是一个PlayerActor，mapObjectType=1，但是可以通过\ngetbaseinfo(actor, \"replica\") 来判断是否是机器人，返回1则表示是机器人\n2、机器人的lua事件不是每一个都触发的，目前只触发 \nexcusefightdamage\nreleaseskill\nplaydie\n如果需要增加，请在 com.sh.game.scene.map.obj.ReplicaActor#canExecuteEvent 里面手动加",
+    "返回参数": "机器人actor",
+    "示例": "    local replicaActor = createreplica(actor,{\n        name= \"马斯克\",  --名字\n        level= 100,  --等级\n\n        view= 10, --机器人的视野\n        attacktype=1, --攻击类型 1:打人，2:打怪\n\n        x= x,  --x坐标\n        y= y,   --y坐标\n        range= 5, -- 创建范围，在坐标周围指定范围内\n        mapid= mapId, --地图唯一ID\n        basecareer= 1,  --基础职业\n        careerrank= 4,  --职业等级\n\n        attribute= { --属性信息\n            [10001]=100,\n            [10002]=100,\n            [10003]=100,\n            [10004]=100,\n            [207011]=9999,\n        },\n        skill={  --技能信息\n            {skillid=1100002,level=1,priority=1},\n            {skillid=1100001,level=1,priority=2},\n            {skillid=1100002,level=1,priority=2},\n        },\n\n        equip={ --装备信息\n            {equipid=20411331,index=4},\n            {equipid=20611331,index=5},\n            {equipid=20712031,index=6},\n            {equipid=20811331,index=7},\n            {equipid=20912031,index=8},\n            {equipid=20310631,index=1},\n            {equipid=20310631,index=2},\n        }\n    })"
+  },
+  "matchpvp": {
+    "模块": "匹配",
+    "参数说明": "参数0:actor\n参数1:匹配信息",
+    "接口功能详述": "发送匹配请求。\n说明如下\nmapcfgid，匹配的副本地图配置ID，该地图在cfg_map_info表中配置，serverType需要配置成3\nplayers，成团人数，比如3v3地图，则填6\nroomid，如果设置了roomid，roomid设置为一样的玩家必定会匹配到同一个房间，其他匹配条件忽略\nlow、high这2个参数表示一个匹配范围，以等级为例，假如你是100级别，如果你需要匹配到同一个副本中的人是95-105级，那么low=95,high=105，当很多人在一起匹配时，这个等级范围的玩家会匹配到一起（现在只是一个简单的规则，如果策划提了复杂的规则，到时再调整）\ntimeoutsec，匹配超时事件，超过这个时间没匹配够人，就匹配失败\nforcestart，人数不够，是否强制匹配成功，比如3v3只匹配到4个人，该参数填1，则也会匹配成功，当4个人进入副本后，剩余2个可用机器人替代，这个看具体需求\nattach，附加的参数，会传递给匹配成功的事件",
+    "返回参数": "无",
+    "示例": "\n    --普通匹配（单人匹配）\n    matchpvp(actor,{\n        matchkey=\"10001_1\", --匹配标志，一样的在一批匹配\n        mapcfgid=21000,\n        players=6,\n        low=100,\n        high=200,\n        timeoutsec=10,\n        candidate={        --备选匹配范围，可以在这里让匹配范围逐渐变大\n            {\n                low=50,\n                high=150,\n                timeoutsec=10,\n            },\n            {\n                low=0,\n                high=200,\n                timeoutsec=10,\n            }\n        },\n        forcestart=0,\n        attach={a=1,b=2}\n    })\n    -- 房间匹配\n       matchpvp(actor,{\n        matchkey=\"10001_1\", --匹配标志，一样的在一批匹配\n        mapcfgid=21000,\n        players=6,\n        low=100,\n        high=200,\n        roomid=\"room_100001\"， --带上房间ID\n        timeoutsec=10,\n        forcestart=0,\n        attach={a=1,b=2}\n    })\n    \n    --队伍匹配\n    \n        matchpvp(actor,{\n        matchkey=\"10001_1\", --匹配标志，一样的在一批匹配\n        mapcfgid=21000,\n        teammember={100000001111111,100000021111111，-1},  --队员ID。-1表示该队伍人没满，但是可以去单匹配玩家中拉一个过来填充\n        teams=0, --匹配队伍的数量，传0表示混合匹配，大于0则仅在队伍之间匹配\n        players=6, --匹配人数\n        low=100,\n        high=200,\n        timeoutsec=10,\n        forcestart=1,\n        attach={a=1,b=2}\n    })"
+  },
+  "cancelmatchpvp": {
+    "模块": "匹配",
+    "参数说明": "参数0:actor\n参数1:取消匹配信息",
+    "接口功能详述": "取消匹配",
+    "返回参数": "无",
+    "示例": "    cancelmatchpvp(actor,{\n        matchkey=\"10001_1\", --匹配标志，一样的在一批匹配\n        mapcfgid=21000 --取消的地图配置ID\n    })\n "
+  }
+}

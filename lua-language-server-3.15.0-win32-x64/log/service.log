@@ -1,0 +1,29 @@
+[10:53:26.683][info] [#0:D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64\main.lua:68]: Lua Lsp startup, root: 	D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64
+[10:53:26.689][info] [#0:D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64\main.lua:69]: ROOT:	D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64
+[10:53:26.689][info] [#0:D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64\main.lua:70]: LOGPATH:	D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64/log
+[10:53:26.689][info] [#0:D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64\main.lua:71]: METAPATH:	D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64/meta
+[10:53:26.689][info] [#0:D:/Users/admin/Desktop/class/插件/save-code-snippets-and-reuse-master/lua-language-server-3.15.0-win32-x64\main.lua:72]: VERSION:	3.15.0
+[10:53:26.739][info] [#0:script\proto\proto.lua:260]: Listen Mode: stdio
+[10:53:26.739][info] [#0:script\service\service.lua:145]: 
+========= Medical Examination Report =========
+    --------------- Memory ---------------
+        Total: 2.269 MB
+        # 00 : 2.269 MB
+        # 01 : 0.000 MB
+        # 02 : 0.000 MB
+        # 03 : 0.000 MB
+        # 04 : 0.000 MB
+    --------------- Coroutine ---------------
+        Total:     0
+        Running:   0
+        Suspended: 0
+        Normal:    0
+        Dead:      0
+    --------------- Cache ---------------
+        Total: 1
+        Dead:  0
+    ---------------  RPC  ---------------
+        Holdon:   0
+        Waiting:  0
+==============================================
+[10:54:06.912][warn] [#0:script\pub\report.lua:24]: Load proto error:	Proto header error: {}

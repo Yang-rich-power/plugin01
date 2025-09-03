@@ -1,0 +1,141 @@
+{
+  "name": "engine-helper",
+  "displayName": "engine-helper",
+  "publisher": "jirenyang",
+  "description": "引擎助手",
+  "version": "0.1.0",
+  "author": "jirenyang",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "categories": ["Snippets", "Extension Packs"],
+  "keywords": ["vscode", "js", "snippets"],
+  "icon": "engine.jpg",
+  "main": "./extension.js",
+  "activationEvents": ["*"],
+  "contributes": {
+    "snippets": [],
+    "commands": [
+      {
+        "command": "engine-helper.saveSnippet",
+        "title": "保存代码片段"
+      },
+      {
+        "command": "engine-helper.insertSnippet",
+        "title": "插入代码片段"
+      },
+      {
+        "command": "engine-helper.deleteSnippet",
+        "title": "删除代码片段"
+      },
+      {
+        "command": "engine-helper.giteeConfig",
+        "title": "仓库配置修改"
+      },
+      {
+        "command": "engine-helper.codeSnippetSynchronization",
+        "title": "代码片段同步"
+      },
+      {
+        "command": "engine-helper.insertFunctionName",
+        "title": "根据代码片段提示补全"
+      },
+      {
+        "command": "engine-helper.editEffectiveDocuments",
+        "title": "修改插件配置文件"
+      },
+      {
+        "command": "engine-helper.importExcelSnippets",
+        "title": "导入Excel接口"
+      },
+      {
+        "command": "engine-helper.showAllSnippets",
+        "title": "显示所有接口"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "engine-helper.saveSnippet",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "engine-helper.insertSnippet",
+        "key": "ctrl+alt+i",
+        "mac": "cmd+alt+i",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "engine-helper.deleteSnippet",
+        "key": "ctrl+alt+d",
+        "mac": "cmd+alt+d"
+      },
+      {
+        "command": "engine-helper.editEffectiveDocuments",
+        "key": "ctrl+alt+e",
+        "mac": "cmd+alt+e"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "engine-helper",
+          "group": "navigation"
+        }
+      ],
+      "engine-helper": [
+        {
+          "command": "engine-helper.giteeConfig",
+          "group": "group1"
+        },
+        {
+          "command": "engine-helper.codeSnippetSynchronization",
+          "group": "group1"
+        },
+        {
+          "command": "engine-helper.editEffectiveDocuments",
+          "group": "group1"
+        },
+        {
+          "command": "engine-helper.saveSnippet",
+          "group": "group2",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "engine-helper.insertSnippet",
+          "group": "group2",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "engine-helper.deleteSnippet",
+          "group": "group2"
+        },
+        {
+          "command": "engine-helper.importExcelSnippets",
+          "group": "group2"
+        },
+        {
+          "command": "engine-helper.showAllSnippets",
+          "group": "group2"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "engine-helper",
+        "label": "引擎助手"
+      }
+    ]
+  },
+  "dependencies": {
+    "-": "^0.0.1",
+    "axios": "^1.7.7",
+    "g": "^2.0.1",
+    "xlsx": "^0.18.5"
+  }
+}
